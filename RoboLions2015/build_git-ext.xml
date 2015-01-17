@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Git Extensions" default="git.push">
+	
+	<target name="git.update-timestamp">
+		<tstamp>
+			<format property="buildTimestamp" pattern="yyyyMMddHHmm" locale="en,US" />
+		</tstamp>
+		<move todir="${basedir}\tmp" filtering="true" overwrite="false">
+			<filterset recurse="false">
+				<filter token="buildTimestamp" value="@buildTimestamp@:${buildTimestamp}" />
+			</filterset>
+			<fileset dir="${basedir}\src" />
+		</move>
+		<move todir="${basedir}\src" filtering="false" overwrite="false">
+			<fileset dir="${basedir}\tmp" />
+		</move>
+	</target>
+
+	<target name="git.identity">
+		<echo>Verifying identity.</echo>
+		<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" outputproperty="git.name" dir="${basedir}" resultproperty="git.name-nonexistent">
+			<arg value="config" />
+			<arg value="--get" />
+			<arg value="user.name" />
+		</exec>
+		<if>
+			<equals arg1="${git.name-nonexistent}" arg2="0" />
+			<then>
+				<echo>Welcome, ${git.name}!</echo>
+			</then>
+			<else>
+				<echo>Could not retrieve your name. Please enter your name in the dialog box.</echo>
+				<input message="Please enter your name." addproperty="git.inputted-name" />
+				<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" dir="${basedir}">
+					<arg value="config" />
+					<arg value="user.name" />
+					<arg value='"${git.inputted-name}"' />
+				</exec>
+				<echo>Welcome, ${git.inputted-name}!</echo>
+			</else>
+		</if>
+		<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" outputproperty="git.email" dir="${basedir}" resultproperty="git.email-nonexistent">
+			<arg value="config" />
+			<arg value="--get" />
+			<arg value="user.email" />
+		</exec>
+		<if>
+			<equals arg1="${git.email-nonexistent}" arg2="0" />
+			<then>
+				<echo>Your email address is ${git.email}</echo>
+			</then>
+			<else>
+				<echo>Could not retrieve your email address. Please enter your email address in the dialog box.</echo>
+				<input message="Please enter your email address." addproperty="git.inputted-email" />
+				<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" dir="${basedir}">
+					<arg value="config" />
+					<arg value="user.email" />
+					<arg value='"${git.inputted-email}"' />
+				</exec>
+				<echo>Your email address is ${git.inputted-email}</echo>
+			</else>
+		</if>
+	</target>
+
+	<target name="git.add-commit" depends="git.update-timestamp,git.identity">
+		<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" dir="${basedir}">
+			<arg value="add" />
+			<arg value="--all" />
+			<arg value="." />
+		</exec>
+		<input message="Please enter a commit message to describe what has changed from the last commit." addproperty="git.commit-message" />
+		<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" dir="${basedir}">
+			<arg value="commit" />
+			<arg value="-m" />
+			<arg value='"${git.commit-message}"' />
+		</exec>
+	</target>
+
+	<target name="git.push" depends="git.add-commit" description="Push the project to the repository.">
+		<input message="Enter the remote to which you want to push." addproperty="git.remote" defaultvalue="origin" />
+		<input message="Enter the branch of the repository to which you want to push." addproperty="git.branch" defaultvalue="develop" />
+		<echo>Pushing to branch "${git.branch}" at remote "${git.remote}".</echo>
+		<exec executable="cmd.exe" dir="${basedir}">
+			<arg value="/c" />
+			<arg value="start" />
+			<arg value="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" />
+			<arg value="push" />
+			<arg value="${git.remote}" />
+			<arg value="${git.branch}" />
+		</exec>
+	</target>
+</project>
