@@ -84,10 +84,9 @@
 		<exec executable="cmd.exe" dir="${basedir}">
 			<arg value="/c" />
 			<arg value="start" />
-			<arg value="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" />
-			<arg value="push" />
-			<arg value="${git.remote}" />
-			<arg value="${git.branch}" />
+			<arg value="cmd" />
+			<arg value="/c" />
+			<arg value="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe push ${git.remote} ${git.branch} &amp; echo. &amp; echo Press any key to exit. &amp; pause > nul" />	
 		</exec>
 	</target>
 </project>
