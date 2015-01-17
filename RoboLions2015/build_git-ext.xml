@@ -2,6 +2,8 @@
 
 <project name="Git Extensions" default="git.push">
 	
+	<property name="git.exe">${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe</property>
+	
 	<target name="git.update-timestamp">
 		<tstamp>
 			<format property="buildTimestamp" pattern="yyyyMMddHHmm" locale="en,US" />
@@ -19,7 +21,7 @@
 
 	<target name="git.identity">
 		<echo>Verifying identity.</echo>
-		<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" outputproperty="git.name" dir="${basedir}" resultproperty="git.name-nonexistent">
+		<exec executable="${git.exe}" outputproperty="git.name" dir="${basedir}" resultproperty="git.name-nonexistent">
 			<arg value="config" />
 			<arg value="--get" />
 			<arg value="user.name" />
@@ -32,7 +34,7 @@
 			<else>
 				<echo>Could not retrieve your name. Please enter your name in the dialog box.</echo>
 				<input message="Please enter your name." addproperty="git.inputted-name" />
-				<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" dir="${basedir}">
+				<exec executable="${git.exe}" dir="${basedir}">
 					<arg value="config" />
 					<arg value="user.name" />
 					<arg value='"${git.inputted-name}"' />
@@ -40,7 +42,7 @@
 				<echo>Welcome, ${git.inputted-name}!</echo>
 			</else>
 		</if>
-		<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" outputproperty="git.email" dir="${basedir}" resultproperty="git.email-nonexistent">
+		<exec executable="${git.exe}" outputproperty="git.email" dir="${basedir}" resultproperty="git.email-nonexistent">
 			<arg value="config" />
 			<arg value="--get" />
 			<arg value="user.email" />
@@ -53,7 +55,7 @@
 			<else>
 				<echo>Could not retrieve your email address. Please enter your email address in the dialog box.</echo>
 				<input message="Please enter your email address." addproperty="git.inputted-email" />
-				<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" dir="${basedir}">
+				<exec executable="${git.exe}" dir="${basedir}">
 					<arg value="config" />
 					<arg value="user.email" />
 					<arg value='"${git.inputted-email}"' />
@@ -64,13 +66,13 @@
 	</target>
 
 	<target name="git.add-commit" depends="git.update-timestamp,git.identity">
-		<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" dir="${basedir}">
+		<exec executable="${git.exe}" dir="${basedir}">
 			<arg value="add" />
 			<arg value="--all" />
 			<arg value="." />
 		</exec>
 		<input message="Please enter a commit message to describe what has changed from the last commit." addproperty="git.commit-message" />
-		<exec executable="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe" dir="${basedir}">
+		<exec executable="${git.exe}" dir="${basedir}">
 			<arg value="commit" />
 			<arg value="-m" />
 			<arg value='"${git.commit-message}"' />
@@ -86,7 +88,7 @@
 			<arg value="start" />
 			<arg value="cmd" />
 			<arg value="/c" />
-			<arg value="${user.home}\AppData\Local\GitHub\Portab~1\bin\git.exe push ${git.remote} ${git.branch} &amp; echo. &amp; echo Press any key to exit. &amp; pause > nul" />	
+			<arg value="${git.exe} push ${git.remote} ${git.branch} &amp; echo. &amp; echo Press any key to exit. &amp; pause > nul" />	
 		</exec>
 	</target>
 </project>
