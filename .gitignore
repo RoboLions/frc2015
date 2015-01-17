@@ -26,3 +26,6 @@ local.properties
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+
+# sysProps.xml is generated every time code is deployed to the robot.
+sysProps.xml
