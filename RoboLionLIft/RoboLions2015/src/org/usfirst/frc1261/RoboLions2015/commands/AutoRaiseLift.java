@@ -36,12 +36,13 @@ public class  AutoRaiseLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    		Robot.liftSystem.raiseLift();
+    	if (!Robot.liftSystem.getUpperLimit()) Robot.liftSystem.raiseLift();
+    	else Robot.liftSystem.stopLift();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.liftSystem.getPhotoSensor();
+        return Robot.liftSystem.getUpperLimit();
     }
 
     // Called once after isFinished returns true
@@ -52,5 +53,6 @@ public class  AutoRaiseLift extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
