@@ -17,7 +17,8 @@ import org.usfirst.frc1261.RoboLions2015.Robot;
 /**
  *
  */
-public class  AutonomousCommand extends Command {
+public class  AutonomousCommand extends Command{
+	
 
     public AutonomousCommand() {
         // Use requires() here to declare subsystem dependencies
@@ -30,10 +31,13 @@ public class  AutonomousCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.driveTrain.getLeftEncoder().reset();
+    	Robot.driveTrain.getRightEncoder().reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.driveTrain.getRobotDrive().drive(1, 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -49,4 +53,6 @@ public class  AutonomousCommand extends Command {
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-}
+    
+    }
+

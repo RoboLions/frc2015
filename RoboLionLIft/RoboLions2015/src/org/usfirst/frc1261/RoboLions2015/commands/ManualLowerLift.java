@@ -36,12 +36,14 @@ public class  ManualLowerLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	 Robot.liftSystem.lowerLift();
+    	 if (!Robot.liftSystem.getLowerLimit() || Robot.oi.getDriverJoystick().getRawButton(6)) Robot.liftSystem.lowerLift();
+    	 else Robot.liftSystem.stopLift();
+    	// TODO: Change Robot.oi.getDriverJoystick().getRawButton(6) to Robot.oi.driverRightBumper.get()
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.liftSystem.getLowerLimit();
+        return (Robot.liftSystem.getLowerLimit() && !Robot.oi.getDriverJoystick().getRawButton(6));
     }
 
     // Called once after isFinished returns true
@@ -52,5 +54,6 @@ public class  ManualLowerLift extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
