@@ -19,7 +19,7 @@ import org.usfirst.frc1261.RoboLions2015.Robot;
  */
 public class  DriveStraight extends Command {
 
-    public DriveStraight() {
+     public DriveStraight() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 

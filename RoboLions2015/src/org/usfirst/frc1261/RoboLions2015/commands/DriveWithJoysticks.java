@@ -36,6 +36,10 @@ public class  DriveWithJoysticks extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+//        Robot.driveTrain.rightFrontDrive.enableBrakeMode(true);
+//        Robot.driveTrain.rightBackDrive.enableBrakeMode(true);
+//        Robot.driveTrain.leftBackDrive.enableBrakeMode(true);
+//        Robot.driveTrain.leftFrontDrive.enableBrakeMode(true);
     	Robot.driveTrain.getRobotDrive().arcadeDrive(Robot.oi.getDriverJoystick(), 1, Robot.oi.getDriverJoystick(), 4);
     }
 
@@ -52,5 +56,6 @@ public class  DriveWithJoysticks extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
