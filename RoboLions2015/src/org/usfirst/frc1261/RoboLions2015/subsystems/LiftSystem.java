@@ -30,8 +30,8 @@ public class LiftSystem extends Subsystem {
     CANTalon frontLiftMotor = RobotMap.liftSystemfrontLiftMotor;
     
     private static final double LOWER_LIMIT_ENCODER_VALUE = 0.0;
-    private static final double UPPER_LIMIT_ENCODER_VALUE = 690.0;
-    private static final double PROXIMITY_THRESHOLD = 50.0;
+    private static final double UPPER_LIMIT_ENCODER_VALUE = 675.0;
+    private static final double PROXIMITY_THRESHOLD = 200.0;
     
     private Timer timer = new Timer();
     private boolean timerRunning = false;
@@ -71,7 +71,7 @@ public class LiftSystem extends Subsystem {
     }
     
     public double getLiftHeight() throws LiftEncoderNotReadyException {
-    	if (liftEncoderReady) return -liftEncoder.getRaw();
+    	if (liftEncoderReady) return -liftEncoder.getDistance();
     	else throw new LiftEncoderNotReadyException();
     }
     
@@ -105,8 +105,8 @@ public class LiftSystem extends Subsystem {
     		}
     	} catch (LiftEncoderNotReadyException e) {
     	}
-    	backLiftMotor.set(Math.min(-1.0 * timer.get(), -1.0));
-    	frontLiftMotor.set(Math.min(-1.0 * timer.get(), -1.0));
+    	backLiftMotor.set(Math.max(-1.0 * timer.get(), -1.0));
+    	frontLiftMotor.set(Math.max(-1.0 * timer.get(), -1.0));
     }
     
     public void stopLift()
