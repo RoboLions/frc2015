@@ -36,13 +36,13 @@ public class  AutoLowerLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (!Robot.liftSystem.getLowerLimit()) Robot.liftSystem.lowerLift();
+    	if (!Robot.liftSystem.isLowerLimitHit()) Robot.liftSystem.lowerLift();
     	else Robot.liftSystem.stopLift();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.liftSystem.getLowerLimit();
+        return Robot.liftSystem.isLowerLimitHit();
     }
 
     // Called once after isFinished returns true

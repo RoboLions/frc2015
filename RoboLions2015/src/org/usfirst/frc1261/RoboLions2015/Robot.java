@@ -101,8 +101,8 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putBoolean("Upper Limit Switch: ", liftSystem.getUpperLimit());
-        SmartDashboard.putBoolean("Lower Limit Switch: ", liftSystem.getLowerLimit());
+        SmartDashboard.putBoolean("Upper Limit Switch: ", liftSystem.isUpperLimitHit());
+        SmartDashboard.putBoolean("Lower Limit Switch: ", liftSystem.isLowerLimitHit());
         try {
         	SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getLiftHeight());
         } catch (LiftSystem.LiftEncoderNotReadyException e) {

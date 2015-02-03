@@ -29,6 +29,13 @@ public class LiftSystem extends Subsystem {
     CANTalon backLiftMotor = RobotMap.liftSystembackLiftMotor;
     CANTalon frontLiftMotor = RobotMap.liftSystemfrontLiftMotor;
     
+    private static final double LOWER_LIMIT_ENCODER_VALUE = 0.0;
+    private static final double UPPER_LIMIT_ENCODER_VALUE = 690.0;
+    private static final double PROXIMITY_THRESHOLD = 50.0;
+    
+    private Timer timer = new Timer();
+    private boolean timerRunning = false;
+    
     public class LiftEncoderNotReadyException extends Exception {
     	
 		private static final long serialVersionUID = 4622929021347497150L;
@@ -37,35 +44,78 @@ public class LiftSystem extends Subsystem {
     
     private boolean liftEncoderReady = false;
     
-    public boolean getLowerLimit() {
-    	return lowerLimit.get();
+    public boolean isLowerLimitHit() {
+    	// For this to work, limit switch must be normally closed.
+    	boolean limitHit = lowerLimit.get();
+    	if (!liftEncoderReady && limitHit) {
+    		liftEncoderReady = true;
+    		liftEncoder.reset();
+    	}
+    	return limitHit;
     }
     
-    public boolean getUpperLimit() {
-    	return upperLimit.get();
+    public boolean isUpperLimitHit() {
+    	// For this to work, limit switch must be normally closed.
+    	boolean limitHit = upperLimit.get();
+    	return limitHit;
+    }
+    
+    public boolean isNearLowerLimit() throws LiftEncoderNotReadyException {
+    	if (getLiftHeight() <= LOWER_LIMIT_ENCODER_VALUE + PROXIMITY_THRESHOLD) return true;
+    	else return false;
     }
 
+    public boolean isNearUpperLimit() throws LiftEncoderNotReadyException {
+    	if (getLiftHeight() >= UPPER_LIMIT_ENCODER_VALUE - PROXIMITY_THRESHOLD) return true;
+    	else return false;
+    }
+    
     public double getLiftHeight() throws LiftEncoderNotReadyException {
-    	if (liftEncoderReady) return -liftEncoder.getDistance();
+    	if (liftEncoderReady) return -liftEncoder.getRaw();
     	else throw new LiftEncoderNotReadyException();
     }
     
     public void raiseLift()
     {
-    	backLiftMotor.set(1.0);
-    	frontLiftMotor.set(1.0);
+    	if (!timerRunning) {
+    		timer.start();
+    		timerRunning = true;
+    	}
+    	try {
+    		if (isNearUpperLimit()) {
+    			backLiftMotor.set((UPPER_LIMIT_ENCODER_VALUE - getLiftHeight()) / PROXIMITY_THRESHOLD);
+    			frontLiftMotor.set((UPPER_LIMIT_ENCODER_VALUE - getLiftHeight()) / PROXIMITY_THRESHOLD);
+    		}
+    	} catch (LiftEncoderNotReadyException e) {
+    	}
+    	backLiftMotor.set(Math.min(1.0 * timer.get(), 1.0));
+    	frontLiftMotor.set(Math.min(1.0 * timer.get(), 1.0));
     }
         
     public void lowerLift()
     {
-    	backLiftMotor.set(-1.0);
-    	frontLiftMotor.set(-1.0);
+    	if (!timerRunning) {
+    		timer.start();
+    		timerRunning = true;
+    	}
+    	try {
+    		if (isNearLowerLimit()) {
+    			backLiftMotor.set((LOWER_LIMIT_ENCODER_VALUE - getLiftHeight()) / PROXIMITY_THRESHOLD);
+    			frontLiftMotor.set((LOWER_LIMIT_ENCODER_VALUE - getLiftHeight()) / PROXIMITY_THRESHOLD);
+    		}
+    	} catch (LiftEncoderNotReadyException e) {
+    	}
+    	backLiftMotor.set(Math.min(-1.0 * timer.get(), -1.0));
+    	frontLiftMotor.set(Math.min(-1.0 * timer.get(), -1.0));
     }
     
     public void stopLift()
     {
     	backLiftMotor.set(0.0);
     	frontLiftMotor.set(0.0);
+    	timer.stop();
+    	timer.reset();
+    	timerRunning = false;
     }
     
     // Put methods for controlling this subsystem
