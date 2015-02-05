@@ -12,7 +12,6 @@
 package org.usfirst.frc1261.RoboLions2015.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc1261.RoboLions2015.Robot;
 
 /**
  *

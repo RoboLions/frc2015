@@ -14,7 +14,6 @@ package org.usfirst.frc1261.RoboLions2015.subsystems;
 import org.usfirst.frc1261.RoboLions2015.RobotMap;
 import org.usfirst.frc1261.RoboLions2015.commands.*;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType; import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -37,21 +36,28 @@ public class DriveTrain extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    int pulsesPerRotation = 360;
-	double diameterInches = 6;
     
     public RobotDrive getRobotDrive() {
     	return robotDrive;
     }
     
     public double pulsesTraveled() {
-    	return (leftEncoder.getRaw() - rightEncoder.getRaw()) / 2;
+    	return (rightEncoder.get() - leftEncoder.get()) / 2;
     	//DO NOT CHANGE TO PLUS. The Encoders measure in opposite directions. 1000 on one = -1000 on the other.
     }
     
     public double distanceTraveled() {
     	return (leftEncoder.getDistance() - rightEncoder.getDistance()) / 2;
+//    	return (rightEncoder.get()/360.0*Math.PI*6.0 - leftEncoder.get()/360.0*Math.PI*6.0)/24;
     	//DO NOT CHANGE TO PLUS. The Encoders measure in opposite directions. 1000 on one = -1000 on the other.
+    }
+    
+    public Encoder getLeftEncoder() {
+    	return leftEncoder;
+    }
+    
+    public Encoder getRightEncoder() {
+    	return rightEncoder;
     }
     
     public void resetDistance() {
@@ -65,14 +71,6 @@ public class DriveTrain extends Subsystem {
     
     public SpeedController getRightDrive() {
     	return rightFrontDrive;
-    }
-    
-    public Encoder getLeftEncoder() {
-    	return leftEncoder;
-    }
-    
-    public Encoder getRightEncoder() {
-    	return rightEncoder;
     }
     
     public void initDefaultCommand() {

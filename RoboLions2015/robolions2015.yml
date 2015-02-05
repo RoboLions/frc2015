@@ -720,7 +720,7 @@ Properties:
     folder: false, name: Wiring File, validators: null, value: ''}
   Use Default Java Package: !!robotbuilder.data.properties.BooleanProperty {default: true,
     name: Use Default Java Package, validators: null, value: true}
-  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\admin\workspace',
+  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\RoboLions\workspace',
     extension: null, folder: true, name: Eclipse Workspace, validators: null, value: ..\}
   Java Package: !!robotbuilder.data.properties.StringProperty {default: org.usfirst.frc0000,
     name: Java Package, validators: null, value: org.usfirst.frc0000}

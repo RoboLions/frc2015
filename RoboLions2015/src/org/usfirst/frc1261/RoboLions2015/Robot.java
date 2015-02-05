@@ -74,6 +74,7 @@ public class Robot extends IterativeRobot {
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+        allPeriodic();
     }
 
     public void autonomousInit() {
@@ -86,16 +87,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putBoolean("Upper Limit Switch: ", liftSystem.hitUpperLimit());
-        SmartDashboard.putBoolean("Lower Limit Switch: ", liftSystem.hitLowerLimit());
-        try {
-        	SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getLiftHeight());
-        } catch (LiftSystem.LiftEncoderNotReadyException e) {
-        	SmartDashboard.putString("Lift Encoder: ", "Unknown");
-        }
-        SmartDashboard.putNumber("Pulses Traveled: ", driveTrain.pulsesTraveled());
-        SmartDashboard.putNumber("Distance Traveled: ", driveTrain.distanceTraveled());
-        SmartDashboard.putNumber("Pressure", manipulator.getPressure());
+        allPeriodic();
     }
 
     public void teleopInit() {
@@ -111,13 +103,21 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        SmartDashboard.putBoolean("Upper Limit Switch: ", liftSystem.hitUpperLimit());
-        SmartDashboard.putBoolean("Lower Limit Switch: ", liftSystem.hitLowerLimit());
+        allPeriodic();
+    }
+    
+    public void allPeriodic() {
+    	SmartDashboard.putBoolean(" Upper Limit Switch", liftSystem.hitUpperLimit());
+        SmartDashboard.putBoolean(" Lower Limit Switch", liftSystem.hitLowerLimit());
         try {
         	SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getLiftHeight());
         } catch (LiftSystem.LiftEncoderNotReadyException e) {
         	SmartDashboard.putString("Lift Encoder: ", "Unknown");
         }
+        SmartDashboard.putNumber("Left Encoder: ", driveTrain.getLeftEncoder().get());
+        SmartDashboard.putNumber("Left Encoder Dist: ", driveTrain.getLeftEncoder().getDistance());
+        SmartDashboard.putNumber("Right Encoder: ", driveTrain.getRightEncoder().get());
+        SmartDashboard.putNumber("Right Encoder Dist: ", driveTrain.getRightEncoder().getDistance());
         SmartDashboard.putNumber("Pulses Traveled: ", driveTrain.pulsesTraveled());
         SmartDashboard.putNumber("Distance Traveled: ", driveTrain.distanceTraveled());
         SmartDashboard.putNumber("Pressure", manipulator.getPressure());
@@ -128,5 +128,6 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+        allPeriodic();
     }
 }
