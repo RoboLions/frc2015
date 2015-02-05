@@ -37,11 +37,11 @@ public class LiftSystem extends Subsystem {
     
     private boolean liftEncoderReady = false;
     
-    public boolean getLowerLimit() {
+    public boolean hitLowerLimit() {
     	return lowerLimit.get();
     }
     
-    public boolean getUpperLimit() {
+    public boolean hitUpperLimit() {
     	return upperLimit.get();
     }
 
