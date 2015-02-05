@@ -86,6 +86,16 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        SmartDashboard.putBoolean("Upper Limit Switch: ", liftSystem.hitUpperLimit());
+        SmartDashboard.putBoolean("Lower Limit Switch: ", liftSystem.hitLowerLimit());
+        try {
+        	SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getLiftHeight());
+        } catch (LiftSystem.LiftEncoderNotReadyException e) {
+        	SmartDashboard.putString("Lift Encoder: ", "Unknown");
+        }
+        SmartDashboard.putNumber("Pulses Traveled: ", driveTrain.pulsesTraveled());
+        SmartDashboard.putNumber("Distance Traveled: ", driveTrain.distanceTraveled());
+        SmartDashboard.putNumber("Pressure", manipulator.getPressure());
     }
 
     public void teleopInit() {
@@ -108,6 +118,8 @@ public class Robot extends IterativeRobot {
         } catch (LiftSystem.LiftEncoderNotReadyException e) {
         	SmartDashboard.putString("Lift Encoder: ", "Unknown");
         }
+        SmartDashboard.putNumber("Pulses Traveled: ", driveTrain.pulsesTraveled());
+        SmartDashboard.putNumber("Distance Traveled: ", driveTrain.distanceTraveled());
         SmartDashboard.putNumber("Pressure", manipulator.getPressure());
     }
 
