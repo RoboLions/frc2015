@@ -109,6 +109,7 @@ public class Robot extends IterativeRobot {
         	SmartDashboard.putString("Lift Encoder: ", "Unknown");
         }
         SmartDashboard.putNumber("Pressure", manipulator.getPressure());
+        SmartDashboard.putBoolean("Pressure Quick Status", manipulator.getQuickkStatus());
     }
 
     /**

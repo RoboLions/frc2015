@@ -16,10 +16,23 @@ public class Manipulator extends Subsystem {
 	DoubleSolenoid forkPiston = RobotMap.forkSolenoid;
 	AnalogInput transducer = new AnalogInput(1);
 	
+	double leastAmountOfPressureNeeded = 100;
+	
 	private static final double VOLTS_TO_PRESSURE_FACTOR = 15.0;
 	
 	public double getPressure(){
 		return transducer.getVoltage() * VOLTS_TO_PRESSURE_FACTOR;
+	}
+	
+	public boolean getQuickkStatus(){
+		if((transducer.getVoltage() * VOLTS_TO_PRESSURE_FACTOR) >= leastAmountOfPressureNeeded ){
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+		
 	}
 
     public void initDefaultCommand() {
