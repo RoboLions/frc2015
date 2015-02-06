@@ -17,6 +17,7 @@ public class Manipulator extends Subsystem {
 	AnalogInput transducer = new AnalogInput(1);
 	
 	private static final double VOLTS_TO_PRESSURE_FACTOR = 15.0;
+	private static final double PRESSURE_THRESHOLD = 40.0; // When the pressure is above this level, the pressure light on SmartDashboard is green.
 	
 	public double getPressure(){
 		return transducer.getVoltage() * VOLTS_TO_PRESSURE_FACTOR;
@@ -38,5 +39,9 @@ public class Manipulator extends Subsystem {
     public void pistonOff(){
     	forkPiston.set(DoubleSolenoid.Value.kOff);
     }
+
+	public boolean getPressureLight() {
+		return getPressure() >= PRESSURE_THRESHOLD;
+	}
 }
 

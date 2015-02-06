@@ -198,7 +198,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: AutoLowerLift
+          value: Lower1Unit
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -222,7 +222,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: AutoRaiseLift
+          value: Raise1Unit
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -710,6 +710,22 @@ Children:
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
     Name: AutoDriveForward
+  - Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: LiftSystem}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: Lower1Unit
+  - Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: LiftSystem}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: Reset Lift Encoder
   Properties: {}
   Base: Commands
   Name: Commands
@@ -720,7 +736,7 @@ Properties:
     folder: false, name: Wiring File, validators: null, value: ''}
   Use Default Java Package: !!robotbuilder.data.properties.BooleanProperty {default: true,
     name: Use Default Java Package, validators: null, value: true}
-  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\RoboLions\workspace',
+  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\admin\workspace',
     extension: null, folder: true, name: Eclipse Workspace, validators: null, value: ..\}
   Java Package: !!robotbuilder.data.properties.StringProperty {default: org.usfirst.frc0000,
     name: Java Package, validators: null, value: org.usfirst.frc0000}

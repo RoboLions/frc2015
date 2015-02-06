@@ -111,12 +111,13 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean(" Lower Limit Switch", liftSystem.hitLowerLimit());
         SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getLiftHeight());
         SmartDashboard.putNumber("Left Encoder: ", driveTrain.getLeftEncoder().get());
-        SmartDashboard.putNumber("Left Encoder Dist: ", driveTrain.getLeftEncoder().getDistance());
+        SmartDashboard.putNumber("Left Encoder Distance: ", driveTrain.getLeftEncoder().getDistance());
         SmartDashboard.putNumber("Right Encoder: ", driveTrain.getRightEncoder().get());
-        SmartDashboard.putNumber("Right Encoder Dist: ", driveTrain.getRightEncoder().getDistance());
+        SmartDashboard.putNumber("Right Encoder Distance: ", driveTrain.getRightEncoder().getDistance());
         SmartDashboard.putNumber("Pulses Traveled: ", driveTrain.pulsesTraveled());
         SmartDashboard.putNumber("Distance Traveled: ", driveTrain.distanceTraveled());
         SmartDashboard.putNumber("Pressure", manipulator.getPressure());
+        SmartDashboard.putBoolean(" Pressure Light", manipulator.getPressureLight());
     }
 
     /**

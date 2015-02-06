@@ -17,9 +17,9 @@ import org.usfirst.frc1261.RoboLions2015.Robot;
 /**
  *
  */
-public class  Raise1Unit extends Command {
+public class  Lower1Unit extends Command {
 
-    public Raise1Unit() {
+    public Lower1Unit() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 
@@ -32,7 +32,7 @@ public class  Raise1Unit extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.liftSystem.stopLift();
-    	Robot.liftSystem.raiseLiftOneLevel();
+    	Robot.liftSystem.lowerLiftOneLevel();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -41,7 +41,7 @@ public class  Raise1Unit extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.liftSystem.onTarget();
+        return Robot.liftSystem.onTarget();
     }
 
     // Called once after isFinished returns true

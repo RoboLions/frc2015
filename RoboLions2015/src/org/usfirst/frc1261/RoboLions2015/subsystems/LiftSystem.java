@@ -11,6 +11,8 @@
 
 package org.usfirst.frc1261.RoboLions2015.subsystems;
 
+import java.util.Arrays;
+
 import org.usfirst.frc1261.RoboLions2015.RobotMap;
 
 import edu.wpi.first.wpilibj.*;
@@ -34,14 +36,13 @@ public class LiftSystem extends PIDSubsystem {
     private static final double LIFT_ENCODER_MIN = 0.0;
     private static final double LIFT_ENCODER_MAX = 680.0;
     
-    private static final double[] SETPOINTS = {LIFT_ENCODER_MIN, 100.0, 200.0, 300.0, LIFT_ENCODER_MAX};
-    // TODO: This is not implemented yet. For now, you can go between the top and the bottom, but you cannot use setpoints.
+    private static double[] SETPOINTS = {150.0, 300.0, 450.0, 600.0};
     
     // PID constants
     private static final double kP = 0.015;
     private static final double kI = 0.0;
     private static final double kD = 0.005;
-    private static final double TOLERANCE = 20.0;
+    private static final double TOLERANCE = 10.0;
     
     // Initialize your subsystem here
     public LiftSystem() {
@@ -49,6 +50,8 @@ public class LiftSystem extends PIDSubsystem {
         setAbsoluteTolerance(TOLERANCE);
         getPIDController().setContinuous(false);
         LiveWindow.addActuator("LiftSystem", "PIDSubsystem Controller", getPIDController());
+        
+        Arrays.sort(SETPOINTS);
 
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
@@ -99,6 +102,45 @@ public class LiftSystem extends PIDSubsystem {
     public void lowerLift() {
     	setSetpoint(LIFT_ENCODER_MIN);
     	enable();
+    }
+    
+    public void raiseLiftOneLevel() {
+    	double currentValue = returnPIDInput();
+    	double setpoint;
+    	int arrayIndex = 0;
+    	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + TOLERANCE) {
+    		arrayIndex++;
+    	}
+    	if (arrayIndex >= SETPOINTS.length) {
+    		setpoint = LIFT_ENCODER_MAX;
+    	} else {
+    		setpoint = SETPOINTS[arrayIndex];
+    	}
+    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
+    	setSetpoint(setpoint);
+    	enable();
+    }
+    
+    public void lowerLiftOneLevel() {
+    	double currentValue = returnPIDInput();
+    	double setpoint;
+    	int arrayIndex = SETPOINTS.length - 1;
+    	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - TOLERANCE) {
+    		arrayIndex--;
+    	}
+    	if (arrayIndex < 0) {
+    		setpoint = LIFT_ENCODER_MIN;
+    	} else {
+    		setpoint = SETPOINTS[arrayIndex];
+    	}
+    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
+    	setSetpoint(setpoint);
+    	enable();
+    }
+    
+    public void resetLiftHeight() {
+    	stopLift();
+    	liftEncoder.reset();
     }
     
     public void stopLift() {
