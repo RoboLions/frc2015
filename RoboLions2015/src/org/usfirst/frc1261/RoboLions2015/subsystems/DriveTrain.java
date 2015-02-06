@@ -42,14 +42,12 @@ public class DriveTrain extends Subsystem {
     }
     
     public double pulsesTraveled() {
-    	return (rightEncoder.get() - leftEncoder.get()) / 2;
-    	//DO NOT CHANGE TO PLUS. The Encoders measure in opposite directions. 1000 on one = -1000 on the other.
+    	return (rightEncoder.get() + leftEncoder.get()) / 2;
     }
     
     public double distanceTraveled() {
-    	return (leftEncoder.getDistance() - rightEncoder.getDistance()) / 2;
+    	return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
 //    	return (rightEncoder.get()/360.0*Math.PI*6.0 - leftEncoder.get()/360.0*Math.PI*6.0)/24;
-    	//DO NOT CHANGE TO PLUS. The Encoders measure in opposite directions. 1000 on one = -1000 on the other.
     }
     
     public Encoder getLeftEncoder() {

@@ -109,11 +109,7 @@ public class Robot extends IterativeRobot {
     public void allPeriodic() {
     	SmartDashboard.putBoolean(" Upper Limit Switch", liftSystem.hitUpperLimit());
         SmartDashboard.putBoolean(" Lower Limit Switch", liftSystem.hitLowerLimit());
-        try {
-        	SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getLiftHeight());
-        } catch (LiftSystem.LiftEncoderNotReadyException e) {
-        	SmartDashboard.putString("Lift Encoder: ", "Unknown");
-        }
+        SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getLiftHeight());
         SmartDashboard.putNumber("Left Encoder: ", driveTrain.getLeftEncoder().get());
         SmartDashboard.putNumber("Left Encoder Dist: ", driveTrain.getLeftEncoder().getDistance());
         SmartDashboard.putNumber("Right Encoder: ", driveTrain.getRightEncoder().get());
