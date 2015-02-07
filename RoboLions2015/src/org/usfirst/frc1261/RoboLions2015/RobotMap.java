@@ -44,7 +44,7 @@ public class RobotMap {
     public static CANTalon driveTrainleftFrontDrive;
     public static RobotDrive driveTrainrobotDrive;
     
-    public static Gyro driveTrainGyro;
+    public static Gyro gyro;
     
     public static DoubleSolenoid forkSolenoid;
 
@@ -84,7 +84,7 @@ public class RobotMap {
         driveTrainrobotDrive.setInvertedMotor(MotorType.kRearRight, true);
         driveTrainrobotDrive.setInvertedMotor(MotorType.kRearLeft, true);
         driveTrainrobotDrive.setInvertedMotor(MotorType.kFrontLeft, true);
-        driveTrainGyro = new Gyro(2);
+        gyro = new Gyro(2);
     }
 }
 
