@@ -70,15 +70,11 @@ public class DriveTrain extends PIDSubsystem {
 	}
 
 	public double pulsesTraveled() {
-		return (leftEncoder.getRaw() - rightEncoder.getRaw()) / 2;
-		// DO NOT CHANGE TO PLUS. The Encoders measure in opposite directions.
-		// 1000 on one = -1000 on the other.
+		return (leftEncoder.getRaw() + rightEncoder.getRaw()) / 2;
 	}
 
 	public double distanceTraveled() {
-		return (leftEncoder.getDistance() - rightEncoder.getDistance()) / 2;
-		// DO NOT CHANGE TO PLUS. The Encoders measure in opposite directions.
-		// 1000 on one = -1000 on the other.
+		return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
 	}
 
 	public void resetDistance() {
@@ -151,13 +147,11 @@ public class DriveTrain extends PIDSubsystem {
 		// setDefaultCommand(new MySpecialCommand());
 	}
 
-	@Override
 	protected double returnPIDInput() {
 		// TODO Auto-generated method stub
 		return (straightController ? distanceTravelled() : gyro.getAngle());
 	}
 
-	@Override
 	protected void usePIDOutput(double output) {
 		if (straightController) {
 			rightFrontDrive.pidWrite(output);

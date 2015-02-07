@@ -84,7 +84,7 @@ public class RobotMap {
         driveTrainrobotDrive.setInvertedMotor(MotorType.kRearRight, true);
         driveTrainrobotDrive.setInvertedMotor(MotorType.kRearLeft, true);
         driveTrainrobotDrive.setInvertedMotor(MotorType.kFrontLeft, true);
-        gyro = new Gyro(2);
+        gyro = new Gyro(1);
     }
 }
 
