@@ -36,13 +36,13 @@ public class  ManualLowerLift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	 if (!Robot.liftSystem.hitLowerLimit() || Robot.oi.driverRightBumper.get()) Robot.liftSystem.lowerLift();
+    	 if (!Robot.liftSystem.hitLowerLimit()) Robot.liftSystem.lowerLift();
     	 else Robot.liftSystem.stopLift();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (Robot.liftSystem.hitLowerLimit() && !Robot.oi.driverRightBumper.get());
+        return Robot.liftSystem.hitLowerLimit();
     }
 
     // Called once after isFinished returns true

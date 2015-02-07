@@ -111,11 +111,7 @@ public class LiftSystem extends PIDSubsystem {
     	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + TOLERANCE) {
     		arrayIndex++;
     	}
-    	if (arrayIndex >= SETPOINTS.length) {
-    		setpoint = LIFT_ENCODER_MAX;
-    	} else {
-    		setpoint = SETPOINTS[arrayIndex];
-    	}
+    	setpoint = (arrayIndex >= SETPOINTS.length) ? LIFT_ENCODER_MAX : SETPOINTS[arrayIndex];
     	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
     	setSetpoint(setpoint);
     	enable();
@@ -128,11 +124,7 @@ public class LiftSystem extends PIDSubsystem {
     	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - TOLERANCE) {
     		arrayIndex--;
     	}
-    	if (arrayIndex < 0) {
-    		setpoint = LIFT_ENCODER_MIN;
-    	} else {
-    		setpoint = SETPOINTS[arrayIndex];
-    	}
+    	setpoint = (arrayIndex < 0) ? LIFT_ENCODER_MIN : SETPOINTS[arrayIndex];
     	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
     	setSetpoint(setpoint);
     	enable();

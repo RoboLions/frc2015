@@ -170,7 +170,7 @@ Children:
           default: whileHeld
           name: When to Run
           validators: null
-          value: whileHeld
+          value: whenPressed
       Base: Joystick Button
       Name: driverA
     - Children: []
@@ -194,7 +194,7 @@ Children:
           default: whileHeld
           name: When to Run
           validators: null
-          value: whileHeld
+          value: whenPressed
       Base: Joystick Button
       Name: driverB
     - Children: []
@@ -316,7 +316,7 @@ Children:
           validators: null
           value: whenPressed
       Base: Joystick Button
-      Name: driverStop
+      Name: driverBack
     - Children: []
       Properties:
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
@@ -508,7 +508,7 @@ Children:
           default: '1'
           name: Button
           validators: null
-          value: '6'
+          value: '5'
         Joystick: !!robotbuilder.data.properties.ParentProperty {default: parent,
           name: Joystick, validators: null, value: ManipulatorJoystick}
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
@@ -518,7 +518,7 @@ Children:
           validators: null
           value: whileHeld
       Base: Joystick Button
-      Name: manipRightBumper
+      Name: manipLeftBumper
     - Children: []
       Properties:
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
@@ -532,7 +532,7 @@ Children:
           default: '1'
           name: Button
           validators: null
-          value: '5'
+          value: '6'
         Joystick: !!robotbuilder.data.properties.ParentProperty {default: parent,
           name: Joystick, validators: null, value: ManipulatorJoystick}
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
@@ -542,7 +542,7 @@ Children:
           validators: null
           value: whileHeld
       Base: Joystick Button
-      Name: manipLeftBumper
+      Name: manipRightBumper
     - Children: []
       Properties:
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
@@ -566,7 +566,7 @@ Children:
           validators: null
           value: whenPressed
       Base: Joystick Button
-      Name: manipStop
+      Name: manipBack
     - Children: []
       Properties:
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
@@ -598,7 +598,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: DummyCommand
+          value: PistonOut
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -622,7 +622,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: DummyCommand
+          value: PistonIn
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -639,54 +639,6 @@ Children:
           value: whenPressed
       Base: Joystick Button
       Name: manipRightStick
-    - Children: []
-      Properties:
-        Joystick: !!robotbuilder.data.properties.ParentProperty {default: parent,
-          name: Joystick, validators: null, value: ManipulatorJoystick}
-        Button: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id010
-          default: '1'
-          name: Button
-          validators: null
-          value: '13'
-        Command: !!robotbuilder.data.properties.TypeSelectionProperty
-          default: None
-          name: Command
-          type: Command
-          validators: *id009
-          value: PistonIn
-        When to Run: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id011
-          default: whileHeld
-          name: When to Run
-          validators: null
-          value: whileHeld
-      Base: Joystick Button
-      Name: manipLeftTrigger
-    - Children: []
-      Properties:
-        Joystick: !!robotbuilder.data.properties.ParentProperty {default: parent,
-          name: Joystick, validators: null, value: ManipulatorJoystick}
-        Button: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id010
-          default: '1'
-          name: Button
-          validators: null
-          value: '14'
-        Command: !!robotbuilder.data.properties.TypeSelectionProperty
-          default: None
-          name: Command
-          type: Command
-          validators: *id009
-          value: PistonOut
-        When to Run: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id011
-          default: whileHeld
-          name: When to Run
-          validators: null
-          value: whileHeld
-      Base: Joystick Button
-      Name: manipRightTrigger
     Properties:
       Number: !!robotbuilder.data.properties.ChoicesProperty
         choices: *id012

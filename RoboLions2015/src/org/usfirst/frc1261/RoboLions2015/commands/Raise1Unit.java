@@ -41,7 +41,7 @@ public class  Raise1Unit extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return Robot.liftSystem.onTarget();
+    	return (Robot.liftSystem.onTarget() || Robot.liftSystem.hitUpperLimit());
     }
 
     // Called once after isFinished returns true
