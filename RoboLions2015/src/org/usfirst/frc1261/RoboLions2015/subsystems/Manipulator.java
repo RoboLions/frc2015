@@ -14,7 +14,7 @@ public class Manipulator extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 	DoubleSolenoid forkPiston = RobotMap.forkSolenoid;
-	AnalogInput transducer = new AnalogInput(1);
+	AnalogInput transducer = new AnalogInput(0);
 
 	double leastAmountOfPressureNeeded = 100;
 

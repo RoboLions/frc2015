@@ -28,7 +28,11 @@ public class AutoGyroDriveForward extends Command {
 	protected void execute() {
 		double angleError = Robot.driveTrain.getAngle();
 		double curveOffset = angleError * Robot.driveTrain.gyro_kP;
+<<<<<<< HEAD
 		Robot.driveTrain.getRobotDrive().drive(Robot.driveTrain.forwardSpeed, -curveOffset);
+=======
+		Robot.driveTrain.getRobotDrive().drive(-0.5, -curveOffset);
+>>>>>>> origin/Gyro
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -39,8 +43,14 @@ public class AutoGyroDriveForward extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.driveTrain.getRobotDrive().stopMotor();
+<<<<<<< HEAD
     	Robot.driveTrain.resetEncoders();
     	Robot.driveTrain.resetGyro();
+=======
+    	//Robot.driveTrain.getLeftEncoder().reset();
+    	//Robot.driveTrain.getRightEncoder().reset();
+    	//Robot.driveTrain.resetGyro();
+>>>>>>> origin/Gyro
 	}
 
 	// Called when another command which requires one or more of the same
