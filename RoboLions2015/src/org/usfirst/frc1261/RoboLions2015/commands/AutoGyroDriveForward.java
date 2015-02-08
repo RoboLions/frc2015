@@ -20,8 +20,7 @@ public class AutoGyroDriveForward extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		// DO NOT addParallel() with another command that reads encoders/gyro
-		Robot.driveTrain.getLeftEncoder().reset();
-		Robot.driveTrain.getRightEncoder().reset();
+		Robot.driveTrain.resetEncoders();
 		Robot.driveTrain.resetGyro();
 	}
 
@@ -29,7 +28,7 @@ public class AutoGyroDriveForward extends Command {
 	protected void execute() {
 		double angleError = Robot.driveTrain.getAngle();
 		double curveOffset = angleError * Robot.driveTrain.gyro_kP;
-		Robot.driveTrain.getRobotDrive().drive(0.5, -curveOffset);
+		Robot.driveTrain.getRobotDrive().drive(Robot.driveTrain.forwardSpeed, -curveOffset);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -40,8 +39,7 @@ public class AutoGyroDriveForward extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.driveTrain.getRobotDrive().stopMotor();
-    	Robot.driveTrain.getLeftEncoder().reset();
-    	Robot.driveTrain.getRightEncoder().reset();
+    	Robot.driveTrain.resetEncoders();
     	Robot.driveTrain.resetGyro();
 	}
 
