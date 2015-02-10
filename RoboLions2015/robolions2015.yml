@@ -137,6 +137,12 @@ Children:
         name: Default Command, type: Command, validators: null, value: None}
     Base: Subsystem
     Name: LiftSystem
+  - Children: []
+    Properties:
+      Default Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Default Command, type: Command, validators: null, value: None}
+    Base: Subsystem
+    Name: Manipulator
   Properties: {}
   Base: Subsystems
   Name: Subsystems
@@ -149,7 +155,7 @@ Children:
           name: Command
           type: Command
           validators: &id009 [TypeDropdownSelected]
-          value: ManualLowerLift
+          value: DummyCommand
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: &id010 ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
             '12', '13', '14', '15', '16']
@@ -164,7 +170,7 @@ Children:
           default: whileHeld
           name: When to Run
           validators: null
-          value: whileHeld
+          value: whenPressed
       Base: Joystick Button
       Name: driverA
     - Children: []
@@ -174,7 +180,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: ManualRaiseLift
+          value: DummyCommand
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -188,7 +194,7 @@ Children:
           default: whileHeld
           name: When to Run
           validators: null
-          value: whileHeld
+          value: whenPressed
       Base: Joystick Button
       Name: driverB
     - Children: []
@@ -198,7 +204,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: AutoLowerLift
+          value: DummyCommand
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -222,7 +228,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: AutoRaiseLift
+          value: DummyCommand
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -310,7 +316,7 @@ Children:
           validators: null
           value: whenPressed
       Base: Joystick Button
-      Name: driverStop
+      Name: driverBack
     - Children: []
       Properties:
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
@@ -400,7 +406,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: DummyCommand
+          value: AutoLowerLift
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -424,7 +430,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: DummyCommand
+          value: AutoRaiseLift
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -448,7 +454,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: DummyCommand
+          value: Lower1Unit
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -472,7 +478,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: DummyCommand
+          value: Raise1Unit
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -496,7 +502,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: DummyCommand
+          value: ManualLowerLift
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -510,7 +516,7 @@ Children:
           default: whileHeld
           name: When to Run
           validators: null
-          value: whenPressed
+          value: whileHeld
       Base: Joystick Button
       Name: manipLeftBumper
     - Children: []
@@ -520,7 +526,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: DummyCommand
+          value: ManualRaiseLift
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -534,7 +540,7 @@ Children:
           default: whileHeld
           name: When to Run
           validators: null
-          value: whenPressed
+          value: whileHeld
       Base: Joystick Button
       Name: manipRightBumper
     - Children: []
@@ -560,7 +566,7 @@ Children:
           validators: null
           value: whenPressed
       Base: Joystick Button
-      Name: manipStop
+      Name: manipBack
     - Children: []
       Properties:
         Command: !!robotbuilder.data.properties.TypeSelectionProperty
@@ -592,7 +598,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: DummyCommand
+          value: PistonOut
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -616,7 +622,7 @@ Children:
           name: Command
           type: Command
           validators: *id009
-          value: DummyCommand
+          value: PistonIn
         Button: !!robotbuilder.data.properties.ChoicesProperty
           choices: *id010
           default: '1'
@@ -721,6 +727,28 @@ Children:
   - Children: []
     Properties:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: LiftSystem}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: Reset Lift Encoder
+  - Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: Manipulator}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: PistonIn
+  - Children: []
+    Properties:
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: Manipulator}
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: PistonOut
+
         name: Requires, type: Subsystem, validators: null, value: DriveTrain}
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
@@ -744,7 +772,7 @@ Properties:
     folder: false, name: Wiring File, validators: null, value: ''}
   Use Default Java Package: !!robotbuilder.data.properties.BooleanProperty {default: true,
     name: Use Default Java Package, validators: null, value: true}
-  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\admin\workspace',
+  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\RoboLions\workspace',
     extension: null, folder: true, name: Eclipse Workspace, validators: null, value: ..\}
   Java Package: !!robotbuilder.data.properties.StringProperty {default: org.usfirst.frc0000,
     name: Java Package, validators: null, value: org.usfirst.frc0000}
