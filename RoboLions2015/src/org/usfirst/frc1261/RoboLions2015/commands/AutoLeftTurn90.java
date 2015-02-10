@@ -17,9 +17,9 @@ import org.usfirst.frc1261.RoboLions2015.Robot;
 /**
  *
  */
-public class  AutoDriveForward extends Command {
+public class  AutoLeftTurn90 extends Command {
 
-    public AutoDriveForward() {
+    public AutoLeftTurn90() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
 
@@ -32,23 +32,25 @@ public class  AutoDriveForward extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.resetEncoders();
+    	Robot.driveTrain.resetGyro();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.getRobotDrive().drive(Robot.driveTrain.forwardSpeed, 0.0);
+    	Robot.driveTrain.getRobotDrive().drive(.5, -Robot.driveTrain.turnSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return (Robot.driveTrain.distanceTraveled() >= 5.0);
+        return Robot.driveTrain.getAngle() <= -90;
     }
 
     // Called once after isFinished returns true
     protected void end() {
     	Robot.driveTrain.getRobotDrive().stopMotor();
-    	Robot.driveTrain.resetEncoders();
-    	Robot.driveTrain.resetGyro();
+    	// Disable for testing purposes
+    	// Robot.driveTrain.resetEncoders();
+    	// Robot.driveTrain.resetGyro();
     }
 
     // Called when another command which requires one or more of the same
