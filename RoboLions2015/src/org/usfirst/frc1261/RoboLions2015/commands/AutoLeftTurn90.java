@@ -37,7 +37,7 @@ public class  AutoLeftTurn90 extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.getRobotDrive().drive(.5, -Robot.driveTrain.turnSpeed);
+    	Robot.driveTrain.getRobotDrive().setLeftRightMotorOutputs(Robot.driveTrain.turnSpeed, -Robot.driveTrain.turnSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -48,7 +48,6 @@ public class  AutoLeftTurn90 extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.driveTrain.getRobotDrive().stopMotor();
-    	// Disable for testing purposes
     	// Robot.driveTrain.resetEncoders();
     	// Robot.driveTrain.resetGyro();
     }
