@@ -25,21 +25,21 @@ public class TestAutonomous extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new AutoGyroDriveForward(5));
-    	addSequential(new AutoGyroRightTurn(84));
-    	addSequential(new AutoGyroDriveForward(5));
-    	addSequential(new AutoGyroRightTurn(84));
+    	addSequential(new AutoGyroRightTurn(84.7));
     	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(84));
-    	addSequential(new AutoGyroDriveForward(5));
-    	addSequential(new AutoGyroRightTurn(84));
-    	addSequential(new AutoGyroDriveForward(5));
-    	addSequential(new AutoGyroRightTurn(84));
-    	addSequential(new AutoGyroDriveForward(5));
-    	addSequential(new AutoGyroRightTurn(84));
+    	addSequential(new AutoGyroRightTurn(84.7));
     	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(84));
+    	addSequential(new AutoGyroRightTurn(84.7));
     	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(84));
+    	addSequential(new AutoGyroRightTurn(84.7));
+    	addSequential(new AutoGyroDriveForward(5.8));
+    	addSequential(new AutoGyroRightTurn(84.7));
+    	addSequential(new AutoGyroDriveForward(5.8));
+    	addSequential(new AutoGyroRightTurn(84.7));
+    	addSequential(new AutoGyroDriveForward(5.8));
+    	addSequential(new AutoGyroRightTurn(84.7));
+    	addSequential(new AutoGyroDriveForward(5.8));
+    	addSequential(new AutoGyroRightTurn(84.7));
     	/*
     	addSequential(new AutoGyroRightTurn(96));
     	addSequential(new AutoGyroDriveForward(5));
