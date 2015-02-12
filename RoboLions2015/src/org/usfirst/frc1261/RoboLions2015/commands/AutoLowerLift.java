@@ -31,13 +31,11 @@ public class  AutoLowerLift extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.liftSystem.stopLift();
+    	Robot.liftSystem.lowerLift();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (!Robot.liftSystem.hitLowerLimit()) Robot.liftSystem.lowerLift();
-    	else Robot.liftSystem.stopLift();
     }
 
     // Make this return true when this Command no longer needs to run execute()

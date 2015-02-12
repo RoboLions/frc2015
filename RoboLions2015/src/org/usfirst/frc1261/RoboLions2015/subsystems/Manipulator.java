@@ -14,7 +14,7 @@ public class Manipulator extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	DoubleSolenoid forkPiston = RobotMap.forkSolenoid;
-	AnalogInput transducer = new AnalogInput(1);
+	AnalogInput transducer = new AnalogInput(0);
 	
 	private static final double VOLTS_TO_PRESSURE_FACTOR = 15.0;
 	private static final double PRESSURE_THRESHOLD = 40.0; // When the pressure is above this level, the pressure light on SmartDashboard is green.

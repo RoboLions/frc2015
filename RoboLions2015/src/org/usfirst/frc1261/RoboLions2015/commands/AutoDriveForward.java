@@ -31,23 +31,22 @@ public class  AutoDriveForward extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveTrain.getLeftEncoder().reset();
-    	Robot.driveTrain.getRightEncoder().reset();
+    	Robot.driveTrain.setStraightDistance(5.0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.getRobotDrive().drive(0.5, 0.0);
+    	Robot.driveTrain.driveDistanceStraight();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	return (Robot.driveTrain.distanceTraveled() >= 5.0);
+    	return Robot.driveTrain.isDistanceDone();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.driveTrain.getRobotDrive().stopMotor();
+    	Robot.driveTrain.endDistance();
     }
 
     // Called when another command which requires one or more of the same
