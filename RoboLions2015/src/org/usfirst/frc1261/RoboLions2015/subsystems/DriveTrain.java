@@ -43,6 +43,9 @@ public class DriveTrain extends Subsystem {
     PIDController straightController;
     PIDController turnController;
     
+    /*
+    MERGE: REMOVE AFTER VERIFICATION
+
     private static final double straight_kP = 0.22;
     private static final double straight_kI = 0.0;
     private static final double straight_kD = 0.035;
@@ -52,6 +55,16 @@ public class DriveTrain extends Subsystem {
     private static final double turn_kP=0.01;
     private static final double turn_kI=0.0;
     private static final double turn_kD=0.005;
+    */
+    private static final double straight_kP = 0.015;
+    private static final double straight_kI = 0.0;
+    private static final double straight_kD = 0.012;
+    
+    private static final double tolerance = 10.0;
+    
+    private static final double turn_kP=0.015;
+    private static final double turn_kI=0;
+    private static final double turn_kD=0.010;
     
     Timer t = new Timer();
     
@@ -70,13 +83,11 @@ public class DriveTrain extends Subsystem {
     }
     
     public double pulsesTraveled() {
-    	return (leftEncoder.getRaw() - rightEncoder.getRaw()) / 2;
-    	//DO NOT CHANGE TO PLUS. The Encoders measure in opposite directions. 1000 on one = -1000 on the other.
+    	return (leftEncoder.getRaw() + rightEncoder.getRaw()) / 2;
     }
     
     public double distanceTraveled() {
     	return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
-    	//DO NOT CHANGE TO PLUS. The Encoders measure in opposite directions. 1000 on one = -1000 on the other.
     }
     
     public void resetDistance() {
@@ -134,6 +145,9 @@ public class DriveTrain extends Subsystem {
     	public void pidWrite(double output){
     		if(turnControllerEnabled){
     			robotDrive.setLeftRightMotorOutputs(-output, output);
+
+                // MERGE: DELETE AFTER VERIFY 
+    			// robotDrive.setLeftRightMotorOutputs(output, -output);
     		}
     	}
     }
@@ -159,7 +173,7 @@ public class DriveTrain extends Subsystem {
     public void stopTurn(){
     	turnController.reset();
     	turnControllerEnabled = false;
-    	robotDrive.setLeftRightMotorOutputs(0, 0);	
+    	robotDrive.setLeftRightMotorOutputs(0, 0);
     	gyro.reset();
     	rightEncoder.reset();
     	leftEncoder.reset();
@@ -180,7 +194,7 @@ public class DriveTrain extends Subsystem {
     private void initStraightController(){
     	straightController = new PIDController(straight_kP,straight_kI,straight_kD, new AverageEncoder(), new StraightOutput());
     	resetDistance();
-    	straightController.setOutputRange(-.1,.5);
+    	straightController.setOutputRange(-.8,.8);
     	straightController.setAbsoluteTolerance(tolerance);
     	straightController.setSetpoint(0);
     }
