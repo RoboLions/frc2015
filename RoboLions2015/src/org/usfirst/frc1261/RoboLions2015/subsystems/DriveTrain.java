@@ -69,6 +69,7 @@ public class DriveTrain extends PIDSubsystem {
 	double diameterInches = 6;
     
 	public DriveTrain(){
+		super("DriveTrain", 0, 0, 0);
     	initStraightController();
     	initTurnController();
 	}
@@ -85,7 +86,7 @@ public class DriveTrain extends PIDSubsystem {
     	return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
     }
     
-    public void resetDistance() {
+    public void resetEncoders() {
     	leftEncoder.reset();
     	rightEncoder.reset();
     }
@@ -122,7 +123,7 @@ public class DriveTrain extends PIDSubsystem {
     	return gyro.getAngle();
     }
     
-    public void resetAngle(){
+    public void resetGyro(){
     	gyro.reset();
     }
     
@@ -183,7 +184,7 @@ public class DriveTrain extends PIDSubsystem {
     
     private void initStraightController(){
     	straightController = new PIDController(straight_kP,straight_kI,straight_kD, new AverageEncoder(), new StraightOutput());
-    	resetDistance();
+    	resetEncoders();
     	straightController.setOutputRange(-.8,.8);
     	straightController.setAbsoluteTolerance(tolerance);
     	straightController.setSetpoint(0);
@@ -222,5 +223,17 @@ public class DriveTrain extends PIDSubsystem {
     	straightController.reset();
     	robotDrive.setLeftRightMotorOutputs(0, 0);
     }
+
+	@Override
+	protected double returnPIDInput() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	protected void usePIDOutput(double output) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
