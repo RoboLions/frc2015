@@ -224,13 +224,11 @@ public class DriveTrain extends PIDSubsystem {
     	robotDrive.setLeftRightMotorOutputs(0, 0);
     }
 
-	@Override
 	protected double returnPIDInput() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
 	protected void usePIDOutput(double output) {
 		// TODO Auto-generated method stub
 		
