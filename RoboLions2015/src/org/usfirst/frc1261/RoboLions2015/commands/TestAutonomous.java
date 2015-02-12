@@ -1,6 +1,7 @@
 package org.usfirst.frc1261.RoboLions2015.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc1261.RoboLions2015.Robot;
 import org.usfirst.frc1261.RoboLions2015.commands.*;
 /**
  *
@@ -25,30 +26,37 @@ public class TestAutonomous extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	addSequential(new AutoGyroDriveForward(5));
-    	addSequential(new AutoGyroRightTurn(84.7));
-    	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(84.7));
-    	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(84.7));
-    	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(84.7));
-    	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(84.7));
-    	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(84.7));
-    	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(84.7));
-    	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(84.7));
-    	/*
-    	addSequential(new AutoGyroRightTurn(96));
-    	addSequential(new AutoGyroDriveForward(5));
-    	addSequential(new AutoGyroRightTurn(96));
-    	addSequential(new AutoGyroDriveForward(5.8));
-    	addSequential(new AutoGyroRightTurn(96));
-    	addSequential(new AutoGyroDriveForward(5));
-    	addSequential(new AutoGyroRightTurn(96));
-    	*/
+    	addSequential(new AutoGyroRightTurn(90 + Robot.driveTrain.turnRightOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroRightTurn(90 + Robot.driveTrain.turnRightOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroRightTurn(90 + Robot.driveTrain.turnRightOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroRightTurn(90 + Robot.driveTrain.turnRightOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroRightTurn(90 + Robot.driveTrain.turnRightOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroRightTurn(90 + Robot.driveTrain.turnRightOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroRightTurn(90 + Robot.driveTrain.turnRightOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroRightTurn(90 + Robot.driveTrain.turnRightOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroLeftTurn(90 + Robot.driveTrain.turnLeftOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroLeftTurn(90 + Robot.driveTrain.turnLeftOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroLeftTurn(90 + Robot.driveTrain.turnLeftOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroLeftTurn(90 + Robot.driveTrain.turnLeftOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroLeftTurn(90 + Robot.driveTrain.turnLeftOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroLeftTurn(90 + Robot.driveTrain.turnLeftOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroLeftTurn(90 + Robot.driveTrain.turnLeftOffset));
+    	addSequential(new AutoGyroDriveForward(6 + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroLeftTurn(90 + Robot.driveTrain.turnLeftOffset));
     	
     }
 }
