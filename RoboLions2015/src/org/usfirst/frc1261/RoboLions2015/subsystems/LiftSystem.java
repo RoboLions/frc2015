@@ -50,13 +50,13 @@ public class LiftSystem extends PIDSubsystem {
 //    private static final double LIFT_ENCODER_MIN = -5000.0;
 //    private static final double LIFT_ENCODER_MAX = 5000.0;
     
-    private static double[] SETPOINTS = {57.0, 203.0, 361.0, 495.0, 645.0};
+    private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
     
     // PID constants
     private static final double kP = 0.01;
     private static final double kI = 0.0005;
     private static final double kD = 0.01;
-    private static final double TOLERANCE = 5.0;
+    private static final double TOLERANCE = 3.0;
     
     private double liftEncoderResetValue = 0.0;
     

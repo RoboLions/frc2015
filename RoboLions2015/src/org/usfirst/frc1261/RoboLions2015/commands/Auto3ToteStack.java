@@ -29,25 +29,30 @@ public class Auto3ToteStack extends CommandGroup {
         // arm.
     	
     	addSequential(new PistonIn());
-    	addSequential(new WaitCommand(.45));
+    	addSequential(new WaitCommand(.2));
     	addSequential(new Raise1Unit());
     	addParallel(new Raise1Unit());
     	addSequential(new AutoGyroDriveForward(Robot.driveTrain.crateToCrate + Robot.driveTrain.forwardOffset));
     	addSequential(new Lower1Unit());
+    	addSequential(new WaitCommand(.2));
     	addSequential(new PistonOut());
+    	addSequential(new WaitCommand(.2));
     	addSequential(new Lower1Unit());
+    	addSequential(new WaitCommand(.2));
     	addSequential(new PistonIn());
-    	addSequential(new WaitCommand(.45));
+    	addSequential(new WaitCommand(.2));
     	addSequential(new Raise1Unit());
     	addParallel(new Raise1Unit());
     	addSequential(new AutoGyroDriveForward(Robot.driveTrain.crateToCrate + Robot.driveTrain.forwardOffset));
     	addSequential(new Lower1Unit());
+    	addSequential(new WaitCommand(.2));
     	addSequential(new PistonOut());
+    	addSequential(new WaitCommand(.2));
     	addSequential(new Lower1Unit());
+    	addSequential(new WaitCommand(.2));
     	addSequential(new PistonIn());
-    	addSequential(new WaitCommand(.45));
-    	addSequential(new Raise1Unit());
-    	addSequential(new AutoGyroRightTurn(90 + Robot.driveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(Robot.driveTrain.crateToCrate + Robot.driveTrain.forwardOffset));    	
+    	addSequential(new AutoGyroRightTurn(80 + Robot.driveTrain.turnRightOffset));
+    	addSequential(new AutoGyroDriveForward(Robot.driveTrain.cratesToAutoZone));
+    	addSequential(new PistonOut());
     }
 }
