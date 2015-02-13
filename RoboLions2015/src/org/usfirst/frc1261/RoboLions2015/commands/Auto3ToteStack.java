@@ -29,7 +29,7 @@ public class Auto3ToteStack extends CommandGroup {
         // arm.
     	
     	addSequential(new PistonIn());
-    	addSequential(new WaitCommand(.25));
+    	addSequential(new WaitCommand(.45));
     	addSequential(new Raise1Unit());
     	addParallel(new Raise1Unit());
     	addSequential(new AutoGyroDriveForward(Robot.driveTrain.crateToCrate + Robot.driveTrain.forwardOffset));
@@ -37,7 +37,7 @@ public class Auto3ToteStack extends CommandGroup {
     	addSequential(new PistonOut());
     	addSequential(new Lower1Unit());
     	addSequential(new PistonIn());
-    	addSequential(new WaitCommand(.25));
+    	addSequential(new WaitCommand(.45));
     	addSequential(new Raise1Unit());
     	addParallel(new Raise1Unit());
     	addSequential(new AutoGyroDriveForward(Robot.driveTrain.crateToCrate + Robot.driveTrain.forwardOffset));
@@ -45,7 +45,7 @@ public class Auto3ToteStack extends CommandGroup {
     	addSequential(new PistonOut());
     	addSequential(new Lower1Unit());
     	addSequential(new PistonIn());
-    	addSequential(new WaitCommand(.25));
+    	addSequential(new WaitCommand(.45));
     	addSequential(new Raise1Unit());
     	addSequential(new AutoGyroRightTurn(90 + Robot.driveTrain.turnRightOffset));
     	addSequential(new AutoGyroDriveForward(Robot.driveTrain.crateToCrate + Robot.driveTrain.forwardOffset));    	

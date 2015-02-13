@@ -69,7 +69,7 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-
+    	Robot.liftSystem.override = false;
     }
 
     public void disabledPeriodic() {
@@ -119,7 +119,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Pulses Traveled: ", driveTrain.pulsesTraveled());
         SmartDashboard.putNumber("Distance Traveled: ", driveTrain.distanceTraveled());
         SmartDashboard.putNumber("Pressure", manipulator.getPressure());
+        SmartDashboard.putBoolean(" Override Enabled", liftSystem.override);
         SmartDashboard.putBoolean(" Pressure Light", manipulator.getPressureLight());
+        SmartDashboard.putData(Scheduler.getInstance());
     }
 
     /**
