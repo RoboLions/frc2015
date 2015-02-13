@@ -7,6 +7,7 @@ import org.usfirst.frc1261.RoboLions2015.Robot;
  *
  */
 public class PistonOut extends Command {
+	int counter = 0;
 	
     public PistonOut() {
         // Use requires() here to declare subsystem dependencies
@@ -22,12 +23,13 @@ public class PistonOut extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.manipulator.pistonOut();
+    	counter++;
     	
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return (counter > 1);
     }
 
     // Called once after isFinished returns true
