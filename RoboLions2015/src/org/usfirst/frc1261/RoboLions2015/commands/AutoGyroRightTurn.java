@@ -12,7 +12,9 @@
 package org.usfirst.frc1261.RoboLions2015.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import org.usfirst.frc1261.RoboLions2015.Robot;
+import org.usfirst.frc1261.RoboLions2015.subsystems.DriveTrain;
 
 /**
  *
@@ -38,7 +40,7 @@ public class  AutoGyroRightTurn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.getRobotDrive().setLeftRightMotorOutputs(-Robot.driveTrain.turnSpeed, Robot.driveTrain.turnSpeed);
+    	Robot.driveTrain.getRobotDrive().setLeftRightMotorOutputs(-DriveTrain.turnSpeed, DriveTrain.turnSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

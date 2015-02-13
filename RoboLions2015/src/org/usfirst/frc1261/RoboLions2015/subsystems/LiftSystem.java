@@ -110,11 +110,19 @@ public class LiftSystem extends PIDSubsystem {
     }
     
     public boolean hitLowerLimit() {
-    	return (override && returnPIDInput() > OVERRIDE_LIFT_ENCODER_MIN) ? false : lowerLimit.get();
+    	if (override) {
+    		return getLiftHeight() <= OVERRIDE_LIFT_ENCODER_MIN;
+    	} else {
+    		return lowerLimit.get();
+    	}
     }
     
     public boolean hitUpperLimit() {
-    	return (override && returnPIDInput() < OVERRIDE_LIFT_ENCODER_MAX) ? false : upperLimit.get();
+    	if (override) {
+    		return getLiftHeight() >= OVERRIDE_LIFT_ENCODER_MAX;
+    	} else {
+    		return upperLimit.get();
+    	}
     }
 
     public double getLiftHeight() {
@@ -148,7 +156,7 @@ public class LiftSystem extends PIDSubsystem {
     		stopLift();
     		return;
     	}
-    	double currentValue = returnPIDInput(); //returnPIDInput();
+    	double currentValue = returnPIDInput();
     	double setpoint;
     	int arrayIndex = 0;
     	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + TOLERANCE) {
@@ -167,7 +175,7 @@ public class LiftSystem extends PIDSubsystem {
     		stopLift();
     		return;
     	}
-    	double currentValue = returnPIDInput(); //returnPIDInput();
+    	double currentValue = returnPIDInput();
     	double setpoint;
     	int arrayIndex = SETPOINTS.length - 1;
     	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - TOLERANCE) {

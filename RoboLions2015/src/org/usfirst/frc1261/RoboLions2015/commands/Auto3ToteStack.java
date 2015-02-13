@@ -3,8 +3,7 @@ package org.usfirst.frc1261.RoboLions2015.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
-import org.usfirst.frc1261.RoboLions2015.Robot;
-import org.usfirst.frc1261.RoboLions2015.commands.*;
+import org.usfirst.frc1261.RoboLions2015.subsystems.DriveTrain;
 /**
  *
  */
@@ -32,7 +31,7 @@ public class Auto3ToteStack extends CommandGroup {
     	addSequential(new WaitCommand(.2));
     	addSequential(new Raise1Unit());
     	addParallel(new Raise1Unit());
-    	addSequential(new AutoGyroDriveForward(Robot.driveTrain.crateToCrate + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset));
     	addSequential(new Lower1Unit());
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonOut());
@@ -43,7 +42,7 @@ public class Auto3ToteStack extends CommandGroup {
     	addSequential(new WaitCommand(.2));
     	addSequential(new Raise1Unit());
     	addParallel(new Raise1Unit());
-    	addSequential(new AutoGyroDriveForward(Robot.driveTrain.crateToCrate + Robot.driveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset));
     	addSequential(new Lower1Unit());
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonOut());
@@ -51,8 +50,8 @@ public class Auto3ToteStack extends CommandGroup {
     	addSequential(new Lower1Unit());
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonIn());
-    	addSequential(new AutoGyroRightTurn(80 + Robot.driveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(Robot.driveTrain.cratesToAutoZone));
+    	addSequential(new AutoGyroRightTurn(80 + DriveTrain.turnRightOffset));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZone));
     	addSequential(new PistonOut());
     }
 }

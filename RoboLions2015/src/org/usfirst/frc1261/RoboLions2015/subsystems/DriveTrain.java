@@ -15,10 +15,7 @@ import org.usfirst.frc1261.RoboLions2015.RobotMap;
 import org.usfirst.frc1261.RoboLions2015.commands.*;
 
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.PIDSource.PIDSourceParameter;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.command.Subsystem;
 
 
 /**
