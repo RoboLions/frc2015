@@ -18,7 +18,7 @@ public class Manipulator extends Subsystem {
 
 	double leastAmountOfPressureNeeded = 100;
 
-	private static final double VOLTS_TO_PRESSURE_FACTOR = 15.0;
+	private static final double VOLTS_TO_PRESSURE_FACTOR = 30.0;
 	private static final double PRESSURE_THRESHOLD = 40.0; // When the pressure is above this level, the pressure light on SmartDashboard is green.
 	
 	public double getPressure(){

@@ -14,6 +14,7 @@ package org.usfirst.frc1261.RoboLions2015.subsystems;
 import java.util.Arrays;
 
 import org.usfirst.frc1261.RoboLions2015.RobotMap;
+import org.usfirst.frc1261.RoboLions2015.commands.HoldLift;
 
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
@@ -34,29 +35,39 @@ public class LiftSystem extends PIDSubsystem {
     CANTalon backLiftMotor = RobotMap.liftSystembackLiftMotor;
     CANTalon frontLiftMotor = RobotMap.liftSystemfrontLiftMotor;
     
-    private static final double LIFT_ENCODER_MIN = -7.5;
-    private static final double LIFT_ENCODER_MAX = 675.0;
+    private static final double LIFT_ENCODER_MIN = -2.5;
+    // Bot 1 min: -7.5
+    // Bot 2 min: -2.5
+    private static final double LIFT_ENCODER_MAX = 685.0;
+    // Bot 1 max: 675.0
+    // Bot 2 max: 685.0
     
     // These values should be safe values, i.e. going to these values will never break the robot.
     private static final double OVERRIDE_LIFT_ENCODER_MIN = 2.5;
-    private static final double OVERRIDE_LIFT_ENCODER_MAX = 665.0;
+    private static final double OVERRIDE_LIFT_ENCODER_MAX = 675.0;
+    // Bot 1 max: 665.0
+    // Bot 2 max: 675.0
     
     // These values are used for calibrating the encoder in the commands BringLiftDown/Up.
     public static final double CALIBRATION_LIFT_ENCODER_MIN = 0.0;
-    public static final double CALIBRATION_LIFT_ENCODER_MAX = 675.0;
+    public static final double CALIBRATION_LIFT_ENCODER_MAX = 685.0;
+    // Bot 1 max: 675.0
+    // Bot 2 max: 685.0
+    
+    // Max lift motor speed
+    private static final double MAX_SPEED = 0.75;
     
     public boolean override = false;
-    
-//    private static final double LIFT_ENCODER_MIN = -5000.0;
-//    private static final double LIFT_ENCODER_MAX = 5000.0;
-    
-    private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
     
     // PID constants
     private static final double kP = 0.01;
     private static final double kI = 0.0005;
     private static final double kD = 0.01;
     private static final double TOLERANCE = 3.0;
+    
+    private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
+    
+    private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
     
     private double liftEncoderResetValue = 0.0;
     
@@ -65,6 +76,7 @@ public class LiftSystem extends PIDSubsystem {
         super("LiftSystem", kP, kI, kD);
         setAbsoluteTolerance(TOLERANCE);
         getPIDController().setContinuous(false);
+        setOutputRange(-MAX_SPEED, MAX_SPEED);
         LiveWindow.addActuator("LiftSystem", "PIDSubsystem Controller", getPIDController());
         
         Arrays.sort(SETPOINTS);
@@ -75,6 +87,9 @@ public class LiftSystem extends PIDSubsystem {
         // enable() - Enables the PID controller.
         
         SmartDashboard.putNumber("Current Setpoint: ", 0.0);
+        
+        if (hitLowerLimit()) calibrateLiftHeight(CALIBRATION_LIFT_ENCODER_MIN);
+        else if (hitUpperLimit()) calibrateLiftHeight(CALIBRATION_LIFT_ENCODER_MAX);
     }
     
     public void setSetpoint(double setpoint) {
@@ -89,6 +104,7 @@ public class LiftSystem extends PIDSubsystem {
     
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new HoldLift());
     }
     
     protected double returnPIDInput() {
@@ -159,7 +175,7 @@ public class LiftSystem extends PIDSubsystem {
     	double currentValue = returnPIDInput();
     	double setpoint;
     	int arrayIndex = 0;
-    	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + TOLERANCE) {
+    	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + SETPOINT_TOLERANCE) {
     		arrayIndex++;
     	}
     	setpoint = (arrayIndex >= SETPOINTS.length) ? LIFT_ENCODER_MAX : SETPOINTS[arrayIndex];
@@ -178,7 +194,7 @@ public class LiftSystem extends PIDSubsystem {
     	double currentValue = returnPIDInput();
     	double setpoint;
     	int arrayIndex = SETPOINTS.length - 1;
-    	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - TOLERANCE) {
+    	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - SETPOINT_TOLERANCE) {
     		arrayIndex--;
     	}
     	setpoint = (arrayIndex < 0) ? LIFT_ENCODER_MIN : SETPOINTS[arrayIndex];
@@ -201,7 +217,6 @@ public class LiftSystem extends PIDSubsystem {
     
     public void stopLift() {
     	setLiftSpeed(0.0);
-    	holdLift();
     }
     
     public void holdLift() {
@@ -217,8 +232,8 @@ public class LiftSystem extends PIDSubsystem {
     		return;
     	}
     	if (getPIDController().isEnable()) disable();
-    	backLiftMotor.set(liftSpeed);
-    	frontLiftMotor.set(liftSpeed);
+    	backLiftMotor.set(Math.max(Math.min(liftSpeed, MAX_SPEED), -MAX_SPEED));
+    	frontLiftMotor.set(Math.max(Math.min(liftSpeed, MAX_SPEED), -MAX_SPEED));
     }
 //    
 //    public void raiseLift()
