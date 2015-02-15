@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class BringLiftUp extends Command {
 
-	private static final double liftSpeed = 0.5;
+	private static final double LIFT_SPEED = 0.5;
 	
     public BringLiftUp() {
         // Use requires() here to declare subsystem dependencies
@@ -25,7 +25,7 @@ public class BringLiftUp extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.liftSystem.setLiftSpeed(liftSpeed);
+    	Robot.liftSystem.setLiftSpeed(LIFT_SPEED);
     }
 
     // Make this return true when this Command no longer needs to run execute()

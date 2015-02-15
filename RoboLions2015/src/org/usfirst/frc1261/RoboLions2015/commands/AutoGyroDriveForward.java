@@ -11,12 +11,15 @@ import org.usfirst.frc1261.RoboLions2015.subsystems.DriveTrain;
 public class AutoGyroDriveForward extends Command {
 
 	private double distanceTarget; 
+	private double outputPower;
 	
-	public AutoGyroDriveForward(double feet) {
+	public AutoGyroDriveForward(double feet, double power) {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		
 		requires(Robot.driveTrain);
 		distanceTarget = feet;
+		outputPower = power;
 	}
 
 	// Called just before this Command runs the first time
@@ -30,7 +33,7 @@ public class AutoGyroDriveForward extends Command {
 	protected void execute() {
 		double angleError = Robot.driveTrain.getAngle();
 		double curveOffset = angleError * DriveTrain.gyro_kP;
-		Robot.driveTrain.getRobotDrive().drive(-DriveTrain.forwardSpeed, -curveOffset);
+		Robot.driveTrain.getRobotDrive().drive(-outputPower, -curveOffset);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

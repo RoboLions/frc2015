@@ -25,37 +25,37 @@ public class TestAutonomous extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
-    	addSequential(new AutoGyroDriveForward(5));
+    	addSequential(new AutoGyroDriveForward(5, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroRightTurn(90 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroRightTurn(90 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroRightTurn(90 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroRightTurn(90 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroRightTurn(90 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroRightTurn(90 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroRightTurn(90 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroRightTurn(90 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroLeftTurn(90 + DriveTrain.turnLeftOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroLeftTurn(90 + DriveTrain.turnLeftOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroLeftTurn(90 + DriveTrain.turnLeftOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroLeftTurn(90 + DriveTrain.turnLeftOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroLeftTurn(90 + DriveTrain.turnLeftOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroLeftTurn(90 + DriveTrain.turnLeftOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroLeftTurn(90 + DriveTrain.turnLeftOffset));
-    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(6 + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new AutoGyroLeftTurn(90 + DriveTrain.turnLeftOffset));
     	
     }

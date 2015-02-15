@@ -66,10 +66,19 @@ public class LiftSystem extends PIDSubsystem {
     private static final double TOLERANCE = 3.0;
     
     private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
+    private static double ENCODER_LEVEL_INCREMENT = 150.0;
     
     private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
     
     private double liftEncoderResetValue = 0.0;
+    
+    private boolean calibrated = false;
+    
+    public class LiftNotCalibratedException extends Exception {
+
+		private static final long serialVersionUID = 2653145509710812617L;
+    	
+    }
     
     // Initialize your subsystem here
     public LiftSystem() {
@@ -92,6 +101,10 @@ public class LiftSystem extends PIDSubsystem {
         else if (hitUpperLimit()) calibrateLiftHeight(CALIBRATION_LIFT_ENCODER_MAX);
     }
     
+    public boolean isCalibrated() {
+    	return calibrated;
+    }
+    
     public void setSetpoint(double setpoint) {
     	SmartDashboard.putNumber("Current Setpoint: ", setpoint);
     	super.setSetpoint(setpoint);
@@ -111,7 +124,11 @@ public class LiftSystem extends PIDSubsystem {
         // Return your input value for the PID loop
         // e.g. a sensor, like a potentiometer:
         // yourPot.getAverageVoltage() / kYourMaxVoltage;
-    	return getLiftHeight();
+    	try {
+			return getLiftHeight();
+		} catch (LiftNotCalibratedException e) {
+			return getLiftHeightRaw();
+		}
     }
     
     protected void usePIDOutput(double output) {
@@ -126,23 +143,42 @@ public class LiftSystem extends PIDSubsystem {
     }
     
     public boolean hitLowerLimit() {
+    	boolean value = lowerLimit.get();
+    	if (!calibrated && value) calibrateLiftHeight(CALIBRATION_LIFT_ENCODER_MIN);
     	if (override) {
-    		return getLiftHeight() <= OVERRIDE_LIFT_ENCODER_MIN;
+    		try {
+				return getLiftHeight() <= OVERRIDE_LIFT_ENCODER_MIN;
+			} catch (LiftNotCalibratedException e) {
+				override = false;
+				return value;
+			}
     	} else {
-    		return lowerLimit.get();
+    		return value;
     	}
     }
     
     public boolean hitUpperLimit() {
+    	boolean value = upperLimit.get();
+    	if (!calibrated && value) calibrateLiftHeight(CALIBRATION_LIFT_ENCODER_MAX);
     	if (override) {
-    		return getLiftHeight() >= OVERRIDE_LIFT_ENCODER_MAX;
+    		try {
+				return getLiftHeight() >= OVERRIDE_LIFT_ENCODER_MAX;
+			} catch (LiftNotCalibratedException e) {
+				override = false;
+				return value;
+			}
     	} else {
-    		return upperLimit.get();
+    		return value;
     	}
     }
 
-    public double getLiftHeight() {
+    public double getLiftHeight() throws LiftNotCalibratedException {
+    	if (!calibrated) throw new LiftNotCalibratedException();
     	return -liftEncoder.get() - liftEncoderResetValue;
+    }
+    
+    public double getLiftHeightRaw() {
+    	return -liftEncoder.get();
     }
     
     public void raiseLift() {
@@ -151,9 +187,13 @@ public class LiftSystem extends PIDSubsystem {
     		return;
     	}
     	if (getPIDController().isEnable()) disable();
-    	setSetpoint(LIFT_ENCODER_MAX);
-    	getPIDController().reset();
-    	enable();
+    	if (calibrated) {
+    		setSetpoint(LIFT_ENCODER_MAX);
+    		getPIDController().reset();
+        	enable();
+    	} else {
+    		setLiftSpeed(MAX_SPEED);
+    	}
     }
     
     public void lowerLift() {
@@ -162,9 +202,13 @@ public class LiftSystem extends PIDSubsystem {
     		return;
     	}
     	if (getPIDController().isEnable()) disable();
-    	setSetpoint(LIFT_ENCODER_MIN);
-    	getPIDController().reset();
-    	enable();
+    	if (calibrated) {
+	    	setSetpoint(LIFT_ENCODER_MIN);
+	    	getPIDController().reset();
+	    	enable();
+    	} else {
+    		setLiftSpeed(-MAX_SPEED);
+    	}
     }
     
     public void raiseLiftOneLevel() {
@@ -172,18 +216,22 @@ public class LiftSystem extends PIDSubsystem {
     		stopLift();
     		return;
     	}
-    	double currentValue = returnPIDInput();
-    	double setpoint;
-    	int arrayIndex = 0;
-    	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + SETPOINT_TOLERANCE) {
-    		arrayIndex++;
+    	if (calibrated) {
+	    	double currentValue = returnPIDInput();
+	    	double setpoint;
+	    	int arrayIndex = 0;
+	    	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + SETPOINT_TOLERANCE) {
+	    		arrayIndex++;
+	    	}
+	    	setpoint = (arrayIndex >= SETPOINTS.length) ? LIFT_ENCODER_MAX : SETPOINTS[arrayIndex];
+	    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
+	    	if (getPIDController().isEnable()) disable();
+	    	setSetpoint(setpoint);
+	    	getPIDController().reset();
+	    	enable();
+    	} else {
+    		setSetpoint(returnPIDInput() + ENCODER_LEVEL_INCREMENT);
     	}
-    	setpoint = (arrayIndex >= SETPOINTS.length) ? LIFT_ENCODER_MAX : SETPOINTS[arrayIndex];
-    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
-    	if (getPIDController().isEnable()) disable();
-    	setSetpoint(setpoint);
-    	getPIDController().reset();
-    	enable();
     }
     
     public void lowerLiftOneLevel() {
@@ -191,18 +239,22 @@ public class LiftSystem extends PIDSubsystem {
     		stopLift();
     		return;
     	}
-    	double currentValue = returnPIDInput();
-    	double setpoint;
-    	int arrayIndex = SETPOINTS.length - 1;
-    	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - SETPOINT_TOLERANCE) {
-    		arrayIndex--;
+    	if (calibrated) {
+	    	double currentValue = returnPIDInput();
+	    	double setpoint;
+	    	int arrayIndex = SETPOINTS.length - 1;
+	    	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - SETPOINT_TOLERANCE) {
+	    		arrayIndex--;
+	    	}
+	    	setpoint = (arrayIndex < 0) ? LIFT_ENCODER_MIN : SETPOINTS[arrayIndex];
+	    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
+	    	if (getPIDController().isEnable()) disable();
+	    	setSetpoint(setpoint);
+	    	getPIDController().reset();
+	    	enable();
+    	} else {
+    		setSetpoint(returnPIDInput() - ENCODER_LEVEL_INCREMENT);
     	}
-    	setpoint = (arrayIndex < 0) ? LIFT_ENCODER_MIN : SETPOINTS[arrayIndex];
-    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
-    	if (getPIDController().isEnable()) disable();
-    	setSetpoint(setpoint);
-    	getPIDController().reset();
-    	enable();
     }
     
     public void resetLiftHeight() {
@@ -211,7 +263,13 @@ public class LiftSystem extends PIDSubsystem {
     
     public void calibrateLiftHeight(double liftHeight) {
     	if (getPIDController().isEnable()) disable();
-    	liftEncoderResetValue += getLiftHeight() - liftHeight;
+    	calibrated = true;
+    	try {
+			liftEncoderResetValue += getLiftHeight() - liftHeight;
+		} catch (LiftNotCalibratedException e) {
+			liftEncoderResetValue = -liftHeight;
+		}
+    	getPIDController().reset();
     	stopLift();
     }
     

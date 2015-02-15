@@ -27,11 +27,12 @@ public class Auto3ToteStack extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
+    	addSequential(new BringLiftDown());
     	addSequential(new PistonIn());
     	addSequential(new WaitCommand(.2));
     	addSequential(new Raise1Unit());
     	addParallel(new Raise1Unit());
-    	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     	addSequential(new Lower1Unit());
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonOut());
@@ -42,7 +43,7 @@ public class Auto3ToteStack extends CommandGroup {
     	addSequential(new WaitCommand(.2));
     	addSequential(new Raise1Unit());
     	addParallel(new Raise1Unit());
-    	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset, DriveTrain.forwardSpeed + DriveTrain.forwardIncrementSpeed));
     	addSequential(new Lower1Unit());
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonOut());
@@ -51,7 +52,7 @@ public class Auto3ToteStack extends CommandGroup {
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonIn());
     	addSequential(new AutoGyroRightTurn(80 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZone));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZone, DriveTrain.forwardSpeed + DriveTrain.forwardIncrementSpeed * 2));
     	addSequential(new PistonOut());
     }
 }

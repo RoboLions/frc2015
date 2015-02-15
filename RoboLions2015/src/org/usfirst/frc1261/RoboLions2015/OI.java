@@ -97,9 +97,9 @@ public class OI {
         manipX = new JoystickButton(manipulatorJoystick, 3);
         manipX.whenPressed(new Lower1Unit());
         manipB = new JoystickButton(manipulatorJoystick, 2);
-        manipB.whenPressed(new AutoRaiseLift());
+        manipB.whenPressed(new DummyCommand());
         manipA = new JoystickButton(manipulatorJoystick, 1);
-        manipA.whenPressed(new AutoLowerLift());
+        manipA.whenPressed(new DummyCommand());
         driverJoystick = new Joystick(0);
         
         driverRightStick = new JoystickButton(driverJoystick, 10);
