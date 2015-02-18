@@ -2,40 +2,35 @@ package org.usfirst.frc1261.RoboLions2015.commands;
 
 import org.usfirst.frc1261.RoboLions2015.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
+
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class HoldLift extends Command {
-
-	private Timer timer = new Timer();
-	private boolean isHolding = false;
+public class ProcessCamera extends Command {
 	
-	private static final double TIMER_THRESHOLD = 0.2;
+	//private Image cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
 	
-    public HoldLift() {
+    public ProcessCamera() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.liftSystem);
+    	requires(Robot.camera);
+    	setRunWhenDisabled(true);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	timer.reset();
-    	timer.start();
+    	Robot.camera.getCameraServer().startAutomaticCapture("cam0");
+    	//NIVision.IMAQdxStartAcquisition(Robot.camera.getCameraSession());
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if (!isHolding && timer.get() >= TIMER_THRESHOLD) {
-    		Robot.liftSystem.holdLift();
-    		timer.stop();
-    		isHolding = true;
-    		SmartDashboard.putBoolean(" Holding Lift", true);
-    	}
+    	//NIVision.IMAQdxGrab(Robot.camera.getCameraSession(), cameraFrame, 1);
+        //Robot.camera.getCameraServer().setImage(cameraFrame);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -45,9 +40,7 @@ public class HoldLift extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	timer.stop();
-    	isHolding = false;
-    	SmartDashboard.putBoolean(" Holding Lift", false);
+    	//NIVision.IMAQdxStopAcquisition(Robot.camera.getCameraSession());
     }
 
     // Called when another command which requires one or more of the same

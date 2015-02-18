@@ -55,15 +55,15 @@ public class LiftSystem extends PIDSubsystem {
     // Bot 2 max: 685.0
     
     // Max lift motor speed
-    private static final double MAX_SPEED = 0.75;
+    private static final double MAX_SPEED = 0.7;
     
     public boolean override = false;
     
     // PID constants
-    private static final double kP = 0.01;
-    private static final double kI = 0.0005;
+    private static final double kP = 0.04;
+    private static final double kI = 0.0;
     private static final double kD = 0.01;
-    private static final double TOLERANCE = 3.0;
+    private static final double TOLERANCE = 4.0;
     
     private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
     private static double ENCODER_LEVEL_INCREMENT = 150.0;
@@ -97,12 +97,20 @@ public class LiftSystem extends PIDSubsystem {
         
         SmartDashboard.putNumber("Current Setpoint: ", 0.0);
         
-        if (hitLowerLimit()) calibrateLiftHeight(CALIBRATION_LIFT_ENCODER_MIN);
-        else if (hitUpperLimit()) calibrateLiftHeight(CALIBRATION_LIFT_ENCODER_MAX);
+        hitLowerLimit();
+        hitUpperLimit();
     }
     
     public boolean isCalibrated() {
     	return calibrated;
+    }
+    
+    public void uncalibrate() {
+    	if (getPIDController().isEnable()) disable();
+    	calibrated = false;
+    	liftEncoderResetValue = 0.0;
+    	getPIDController().reset();
+    	stopLift();
     }
     
     public void setSetpoint(double setpoint) {
