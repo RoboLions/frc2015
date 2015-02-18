@@ -29,8 +29,6 @@ import org.usfirst.frc1261.RoboLions2015.subsystems.LiftSystem.LiftNotCalibrated
  * directory.
  */
 public class Robot extends IterativeRobot {
-
-	public static final int ROBOT_ID = 2;
 	
     Command autonomousCommand;
 
@@ -131,7 +129,7 @@ public class Robot extends IterativeRobot {
         try {
 			SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getLiftHeight());
 		} catch (LiftNotCalibratedException e) {
-			SmartDashboard.putNumber("Lift Encoder: ", 0.0);
+			SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getRawLiftHeight());
 		}
         SmartDashboard.putNumber("Left Encoder: ", driveTrain.getLeftEncoder().get());
         SmartDashboard.putNumber("Left Encoder Distance: ", driveTrain.getLeftEncoder().getDistance());

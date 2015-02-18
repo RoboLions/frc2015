@@ -1,43 +1,41 @@
 package org.usfirst.frc1261.RoboLions2015.commands;
 
 import org.usfirst.frc1261.RoboLions2015.Robot;
+import org.usfirst.frc1261.RoboLions2015.subsystems.LiftSystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ProcessCamera extends Command {
+public class GoToTopOfToteChute extends Command {
+
+	public static final double TOP_OF_TOTE_CHUTE = 54;
 	
-	//private Image cameraFrame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-	
-    public ProcessCamera() {
+    public GoToTopOfToteChute() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.camera);
-    	setRunWhenDisabled(true);
+    	requires(Robot.liftSystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.camera.getCameraServer().startAutomaticCapture("cam0");
-    	//NIVision.IMAQdxStartAcquisition(Robot.camera.getCameraSession());
+    	Robot.liftSystem.stopLift();
+    	Robot.liftSystem.moveLiftTo(LiftSystem.convertInchesToLiftHeight(TOP_OF_TOTE_CHUTE));
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//NIVision.IMAQdxGrab(Robot.camera.getCameraSession(), cameraFrame, 1);
-        //Robot.camera.getCameraServer().setImage(cameraFrame);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.liftSystem.onTarget();
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	//NIVision.IMAQdxStopAcquisition(Robot.camera.getCameraSession());
+    	Robot.liftSystem.stopLift();
     }
 
     // Called when another command which requires one or more of the same
