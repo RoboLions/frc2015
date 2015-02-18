@@ -35,27 +35,22 @@ public class LiftSystem extends PIDSubsystem {
     CANTalon backLiftMotor = RobotMap.liftSystembackLiftMotor;
     CANTalon frontLiftMotor = RobotMap.liftSystemfrontLiftMotor;
     
-    private static final double LIFT_ENCODER_MIN = -2.5;
-    // Bot 1 min: -7.5
-    // Bot 2 min: -2.5
-    private static final double LIFT_ENCODER_MAX = 685.0;
-    // Bot 1 max: 675.0
-    // Bot 2 max: 685.0
+    private static final double LIFT_ENCODER_MIN;
+    private static final double LIFT_ENCODER_MAX;
     
     // These values should be safe values, i.e. going to these values will never break the robot.
-    private static final double OVERRIDE_LIFT_ENCODER_MIN = 2.5;
-    private static final double OVERRIDE_LIFT_ENCODER_MAX = 675.0;
-    // Bot 1 max: 665.0
-    // Bot 2 max: 675.0
+    private static final double OVERRIDE_LIFT_ENCODER_MIN;
+    private static final double OVERRIDE_LIFT_ENCODER_MAX;
     
     // These values are used for calibrating the encoder in the commands BringLiftDown/Up.
-    public static final double CALIBRATION_LIFT_ENCODER_MIN = 0.0;
-    public static final double CALIBRATION_LIFT_ENCODER_MAX = 685.0;
-    // Bot 1 max: 675.0
-    // Bot 2 max: 685.0
+    public static final double CALIBRATION_LIFT_ENCODER_MIN;
+    public static final double CALIBRATION_LIFT_ENCODER_MAX;
+    
+    public static final double LIFT_INCHES_MIN;
+    public static final double LIFT_INCHES_MAX;
     
     // Max lift motor speed
-    private static final double MAX_SPEED = 0.75;
+    private static final double MAX_LIFT_SPEED = 0.65;
     
     public boolean override = false;
     
@@ -63,12 +58,40 @@ public class LiftSystem extends PIDSubsystem {
     private static final double kP = 0.01;
     private static final double kI = 0.0005;
     private static final double kD = 0.01;
-    private static final double TOLERANCE = 3.0;
+    private static final double TOLERANCE = 4.0;
     
-    private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
+    // private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
+    private static double[] SETPOINTS = {467.0};
     private static double ENCODER_LEVEL_INCREMENT = 150.0;
     
     private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
+    
+    static {
+    	int robotId = Preferences.getInstance().getInt("RobotID", 2);
+    	switch (robotId) {
+    	case 1:
+    		LIFT_ENCODER_MIN = -7.5;
+    		LIFT_ENCODER_MAX = 675.0;
+    		OVERRIDE_LIFT_ENCODER_MIN = 2.5;
+    		OVERRIDE_LIFT_ENCODER_MAX = 665.0;
+    		CALIBRATION_LIFT_ENCODER_MIN = 0.0;
+    		CALIBRATION_LIFT_ENCODER_MAX = 675.0;
+    		LIFT_INCHES_MIN = 6; // Untested
+    		LIFT_INCHES_MAX = 63; // Untested
+    		break;
+    	case 2:
+		default:
+			LIFT_ENCODER_MIN = -2.5;
+			LIFT_ENCODER_MAX = 685.0;
+			OVERRIDE_LIFT_ENCODER_MIN = 2.5;
+			OVERRIDE_LIFT_ENCODER_MAX = 680.0;
+			CALIBRATION_LIFT_ENCODER_MIN = 0.0;
+			CALIBRATION_LIFT_ENCODER_MAX = 683.0;
+			LIFT_INCHES_MIN = 6;
+			LIFT_INCHES_MAX = 63;
+			break;
+    	}
+    }
     
     private double liftEncoderResetValue = 0.0;
     
@@ -85,7 +108,7 @@ public class LiftSystem extends PIDSubsystem {
         super("LiftSystem", kP, kI, kD);
         setAbsoluteTolerance(TOLERANCE);
         getPIDController().setContinuous(false);
-        setOutputRange(-MAX_SPEED, MAX_SPEED);
+        setOutputRange(-MAX_LIFT_SPEED, MAX_LIFT_SPEED);
         LiveWindow.addActuator("LiftSystem", "PIDSubsystem Controller", getPIDController());
         
         Arrays.sort(SETPOINTS);
@@ -127,7 +150,7 @@ public class LiftSystem extends PIDSubsystem {
     	try {
 			return getLiftHeight();
 		} catch (LiftNotCalibratedException e) {
-			return getLiftHeightRaw();
+			return getRawLiftHeight();
 		}
     }
     
@@ -177,7 +200,7 @@ public class LiftSystem extends PIDSubsystem {
     	return -liftEncoder.get() - liftEncoderResetValue;
     }
     
-    public double getLiftHeightRaw() {
+    public double getRawLiftHeight() {
     	return -liftEncoder.get();
     }
     
@@ -192,7 +215,7 @@ public class LiftSystem extends PIDSubsystem {
     		getPIDController().reset();
         	enable();
     	} else {
-    		setLiftSpeed(MAX_SPEED);
+    		setLiftSpeed(MAX_LIFT_SPEED);
     	}
     }
     
@@ -207,7 +230,7 @@ public class LiftSystem extends PIDSubsystem {
 	    	getPIDController().reset();
 	    	enable();
     	} else {
-    		setLiftSpeed(-MAX_SPEED);
+    		setLiftSpeed(-MAX_LIFT_SPEED);
     	}
     }
     
@@ -257,6 +280,22 @@ public class LiftSystem extends PIDSubsystem {
     	}
     }
     
+    public void moveLiftTo(double setpoint) {
+    	double currentValue = returnPIDInput();
+    	if ((setpoint <= currentValue && hitLowerLimit()) || (setpoint >= currentValue && hitUpperLimit())) {
+    		stopLift();
+    		return;
+    	}
+    	if (getPIDController().isEnable()) disable();
+    	if (calibrated) {
+	    	setSetpoint(setpoint);
+	    	getPIDController().reset();
+	    	enable();
+    	} else {
+    		stopLift();
+    	}
+    }
+    
     public void resetLiftHeight() {
     	calibrateLiftHeight(0.0);
     }
@@ -290,8 +329,12 @@ public class LiftSystem extends PIDSubsystem {
     		return;
     	}
     	if (getPIDController().isEnable()) disable();
-    	backLiftMotor.set(Math.max(Math.min(liftSpeed, MAX_SPEED), -MAX_SPEED));
-    	frontLiftMotor.set(Math.max(Math.min(liftSpeed, MAX_SPEED), -MAX_SPEED));
+    	backLiftMotor.set(Math.max(Math.min(liftSpeed, MAX_LIFT_SPEED), -MAX_LIFT_SPEED));
+    	frontLiftMotor.set(Math.max(Math.min(liftSpeed, MAX_LIFT_SPEED), -MAX_LIFT_SPEED));
+    }
+    
+    public static double convertInchesToLiftHeight(double inches) {
+    	return (inches - LIFT_INCHES_MIN) / ((LIFT_INCHES_MAX - LIFT_INCHES_MIN) / (CALIBRATION_LIFT_ENCODER_MAX - CALIBRATION_LIFT_ENCODER_MIN)) + CALIBRATION_LIFT_ENCODER_MIN;
     }
 //    
 //    public void raiseLift()
