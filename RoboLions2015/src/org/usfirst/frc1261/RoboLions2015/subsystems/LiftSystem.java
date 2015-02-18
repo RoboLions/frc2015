@@ -55,13 +55,13 @@ public class LiftSystem extends PIDSubsystem {
     public boolean override = false;
     
     // PID constants
-    private static final double kP = 0.04;
+    private static final double kP = 0.05;
     private static final double kI = 0.0;
     private static final double kD = 0.01;
-    private static final double TOLERANCE = 4.0;
+    private static final double TOLERANCE = 5.0;
     
-    // private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
-    private static double[] SETPOINTS = {467.0};
+    private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
+    // private static double[] SETPOINTS = {467.0};
     private static double ENCODER_LEVEL_INCREMENT = 150.0;
     
     private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
@@ -304,6 +304,12 @@ public class LiftSystem extends PIDSubsystem {
     	}
     }
     
+    public void moveLiftTo(double setpoint, double power)
+    {
+    	setOutputRange(-power, power);
+    	moveLiftTo(setpoint);
+    }
+    
     public void resetLiftHeight() {
     	calibrateLiftHeight(0.0);
     }
@@ -322,6 +328,7 @@ public class LiftSystem extends PIDSubsystem {
     
     public void stopLift() {
     	setLiftSpeed(0.0);
+    	setOutputRange(-MAX_LIFT_SPEED, MAX_LIFT_SPEED);
     }
     
     public void holdLift() {
@@ -344,6 +351,8 @@ public class LiftSystem extends PIDSubsystem {
     public static double convertInchesToLiftHeight(double inches) {
     	return (inches - LIFT_INCHES_MIN) / ((LIFT_INCHES_MAX - LIFT_INCHES_MIN) / (CALIBRATION_LIFT_ENCODER_MAX - CALIBRATION_LIFT_ENCODER_MIN)) + CALIBRATION_LIFT_ENCODER_MIN;
     }
+    
+    
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.

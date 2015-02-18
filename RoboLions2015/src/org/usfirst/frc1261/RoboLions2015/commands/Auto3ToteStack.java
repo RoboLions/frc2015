@@ -30,29 +30,29 @@ public class Auto3ToteStack extends CommandGroup {
     	addSequential(new BringLiftDown());
     	addSequential(new PistonIn());
     	addSequential(new WaitCommand(.2));
-    	addSequential(new Raise1Unit());
-    	addSequential(new Raise1Unit());
+    	// addSequential(new Raise1Unit()); * 2
+    	addParallel(new GoToLiftPosition(208.0, 1.0));
     	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
-    	addSequential(new Lower1Unit());
+    	addSequential(new GoToLiftPosition(100.0, 1.0));
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonOut());
     	addSequential(new WaitCommand(.2));
-    	addSequential(new Lower1Unit());
+    	addSequential(new AutoLowerLift());
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonIn());
     	addSequential(new WaitCommand(.2));
-    	addSequential(new Raise1Unit());
-    	addSequential(new Raise1Unit());
-    	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset, DriveTrain.forwardSpeed + DriveTrain.forwardIncrementSpeed));
-    	addSequential(new Lower1Unit());
+    	addParallel(new GoToLiftPosition(208.0, 1.0));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset, DriveTrain.forwardSpeed)); // + DriveTrain.forwardIncrementSpeed));
+    	addSequential(new GoToLiftPosition(100.0, 1.0));
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonOut());
     	addSequential(new WaitCommand(.2));
-    	addSequential(new Lower1Unit());
+    	addSequential(new AutoLowerLift());
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonIn());
     	addSequential(new AutoGyroRightTurn(80 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZone, DriveTrain.forwardSpeed + DriveTrain.forwardIncrementSpeed * 2));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZone, DriveTrain.forwardSpeed)); // + DriveTrain.forwardIncrementSpeed * 2));
     	addSequential(new PistonOut());
+    	
     }
 }
