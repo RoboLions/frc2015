@@ -1,0 +1,113 @@
+<xml version="1.0">
+<dashboard>
+	<widget field=" Lift Calibrated" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="17" y="434"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
+		<location x="986" y="199"/>
+	</static-widget>
+	<widget field="Uncalibrate Lift" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="6" y="444"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="661" y="19"/>
+		<property name="Text" value="Drivetrain:"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="304" y="21"/>
+		<property name="Text" value="Pneumatics:"/>
+	</static-widget>
+	<widget field=" Holding Lift" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="17" y="410"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="10" y="10"/>
+		<property name="Text" value="Lift System:"/>
+	</static-widget>
+	<widget field=" Upper Limit Switch" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="10" y="35"/>
+	</widget>
+	<widget field=" Lower Limit Switch" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="10" y="50"/>
+	</widget>
+	<widget field="Pressure: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.FormattedField">
+		<location x="303" y="214"/>
+		<width>250</width>
+		<property name="Font Size" value="48"/>
+	</widget>
+	<widget field=" Pressure Light" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="305" y="149"/>
+		<width>121</width>
+		<height>54</height>
+	</widget>
+	<widget field=" Override Enabled" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
+		<location x="13" y="103"/>
+	</widget>
+	<widget field="Left Encoder Distance: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="643" y="127"/>
+	</widget>
+	<widget field="Open Grabber" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="300" y="53"/>
+	</widget>
+	<widget field="Raise Lift 1 Unit" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="3" y="260"/>
+	</widget>
+	<widget field="Current Setpoint: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="2" y="389"/>
+	</widget>
+	<widget field="Auto Lower Lift" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="5" y="222"/>
+	</widget>
+	<widget field="Lower Lift 1 Unit" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="285"/>
+	</widget>
+	<widget field="Gyro: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="727" y="279"/>
+	</widget>
+	<widget field="Pulses Traveled: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="672" y="86"/>
+	</widget>
+	<widget field="Lift Encoder: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="18" y="139"/>
+	</widget>
+	<widget field="Scheduler" type="Scheduler" class="edu.wpi.first.smartdashboard.gui.elements.Scheduler">
+		<location x="989" y="20"/>
+	</widget>
+	<widget field="Toggle Limit Switch Override" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="8" y="76"/>
+	</widget>
+	<widget field="Bring Lift Up" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="20" y="325"/>
+	</widget>
+	<widget field="Distance Traveled: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="661" y="60"/>
+	</widget>
+	<widget field="Reset Lift Encoder" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="8" y="156"/>
+	</widget>
+	<widget field="Right Encoder Distance: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="636" y="154"/>
+	</widget>
+	<widget field="Auto Raise Lift" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="8" y="197"/>
+	</widget>
+	<widget field="Bring Lift Down" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="6" y="350"/>
+	</widget>
+	<widget field="Reset Gyro" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="717" y="296"/>
+	</widget>
+	<widget field="Close Grabber" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="301" y="84"/>
+	</widget>
+	<widget field="Left Encoder: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="686" y="200"/>
+	</widget>
+	<widget field="Right Encoder: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="680" y="226"/>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+	<hidden field="Debug: "/>
+</xml>
