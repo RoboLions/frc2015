@@ -13,6 +13,7 @@ package org.usfirst.frc1261.RoboLions2015.subsystems;
 
 import java.util.Arrays;
 
+import org.usfirst.frc1261.RoboLions2015.Robot;
 import org.usfirst.frc1261.RoboLions2015.RobotMap;
 import org.usfirst.frc1261.RoboLions2015.commands.HoldLift;
 
@@ -67,8 +68,7 @@ public class LiftSystem extends PIDSubsystem {
     private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
     
     static {
-    	int robotId = Preferences.getInstance().getInt("RobotID", 2);
-    	switch (robotId) {
+    	switch (Robot.ROBOT_ID) {
     	case 1:
     		LIFT_ENCODER_MIN = -7.5;
     		LIFT_ENCODER_MAX = 675.0;

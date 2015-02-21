@@ -1,5 +1,6 @@
 package org.usfirst.frc1261.RoboLions2015.commands;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,7 +12,19 @@ import org.usfirst.frc1261.RoboLions2015.Robot;
 public class PistonOut extends Command {
 	Timer timer = new Timer();
 	
-	private static final double TIMER_THRESHOLD = 0.2;
+	private static final double TIMER_THRESHOLD;
+	
+	static {
+    	switch (Robot.ROBOT_ID) {
+    	case 1:
+    		TIMER_THRESHOLD = 0.2;
+    		break;
+    	case 2:
+    	default:
+    		TIMER_THRESHOLD = 0.2;
+    		break;
+    	}
+	}
 	
     public PistonOut() {
         // Use requires() here to declare subsystem dependencies
