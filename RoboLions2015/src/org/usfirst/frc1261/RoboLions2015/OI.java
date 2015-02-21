@@ -155,8 +155,10 @@ public class OI {
         
         // Autonomous chooser
         autoChooser = new SendableChooser();
-        autoChooser.addDefault("3 Tote Stack", new Auto3ToteStack());
-        autoChooser.addObject("1 Tote Push", new TotePush());
+        autoChooser.addDefault("3 Tote Stack (with scoring platform)", new Auto3ToteStackWithScoringPlatform());
+        autoChooser.addObject("1 Tote Push (with scoring platform)", new TotePushWithScoringPlatform());
+        autoChooser.addObject("3 Tote Stack (without scoring platform)", new Auto3ToteStackWithoutScoringPlatform());
+        autoChooser.addObject("1 Tote Push (without scoring platform)", new TotePushWithoutScoringPlatform());
         autoChooser.addObject("None", new DummyCommand());
         SmartDashboard.putData("Autonomous", autoChooser);
     }

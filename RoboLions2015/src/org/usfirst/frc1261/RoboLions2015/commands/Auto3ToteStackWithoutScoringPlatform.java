@@ -7,9 +7,9 @@ import org.usfirst.frc1261.RoboLions2015.subsystems.DriveTrain;
 /**
  *
  */
-public class Auto3ToteStack extends CommandGroup {
+public class Auto3ToteStackWithoutScoringPlatform extends CommandGroup {
     
-    public  Auto3ToteStack() {
+    public  Auto3ToteStackWithoutScoringPlatform() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -51,7 +51,7 @@ public class Auto3ToteStack extends CommandGroup {
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonIn());
     	addSequential(new AutoGyroRightTurn(80 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZone, DriveTrain.forwardSpeed)); // + DriveTrain.forwardIncrementSpeed * 2));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZoneWithScoringPlatform, DriveTrain.forwardSpeed)); // + DriveTrain.forwardIncrementSpeed * 2));
     	addSequential(new PistonOut());
     	
     }

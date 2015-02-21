@@ -1,10 +1,20 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Robot ID: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="990" y="442"/>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="990" y="76"/>
+		<property name="Text" value="Autonomous Program:"/>
+	</static-widget>
+	<widget field="Autonomous" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="989" y="83"/>
+	</widget>
 	<widget field=" Lift Calibrated" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="17" y="434"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
-		<location x="986" y="199"/>
+		<location x="989" y="239"/>
 	</static-widget>
 	<widget field="Uncalibrate Lift" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="6" y="444"/>
@@ -109,5 +119,4 @@
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="Debug: "/>
 </xml>

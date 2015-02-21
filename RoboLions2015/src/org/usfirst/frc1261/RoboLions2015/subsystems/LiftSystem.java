@@ -68,7 +68,7 @@ public class LiftSystem extends PIDSubsystem {
     private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
     
     static {
-    	switch (Robot.ROBOT_ID) {
+    	switch (Robot.getRobotId()) {
     	case 1:
     		LIFT_ENCODER_MIN = -7.5;
     		LIFT_ENCODER_MAX = 675.0;

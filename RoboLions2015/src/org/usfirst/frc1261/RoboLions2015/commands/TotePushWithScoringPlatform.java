@@ -3,13 +3,14 @@ package org.usfirst.frc1261.RoboLions2015.commands;
 import org.usfirst.frc1261.RoboLions2015.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
 /**
  *
  */
-public class TotePush extends CommandGroup {
+public class TotePushWithScoringPlatform extends CommandGroup {
     
-    public  TotePush() {
+    public  TotePushWithScoringPlatform() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -28,10 +29,10 @@ public class TotePush extends CommandGroup {
         // arm.
     	addSequential(new BringLiftDown());
     	addSequential(new PistonIn());
-    	addSequential(new Raise1Unit());
-    	addSequential(new Raise1Unit());
+    	addSequential(new WaitCommand(1.0));
+    	addSequential(new GoToLiftPosition(208.0, 1.0));
     	addSequential(new AutoGyroRightTurn(80 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZone, DriveTrain.forwardSpeed - DriveTrain.forwardIncrementSpeed));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZoneWithScoringPlatform, DriveTrain.forwardSpeed - DriveTrain.forwardIncrementSpeed));
     	addSequential(new AutoLowerLift());
     	addSequential(new PistonOut());
     	

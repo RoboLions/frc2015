@@ -1,7 +1,6 @@
 package org.usfirst.frc1261.RoboLions2015.commands;
 
 import org.usfirst.frc1261.RoboLions2015.Robot;
-import org.usfirst.frc1261.RoboLions2015.subsystems.LiftSystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 

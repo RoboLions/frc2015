@@ -1,6 +1,5 @@
 package org.usfirst.frc1261.RoboLions2015.commands;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -15,7 +14,7 @@ public class PistonOut extends Command {
 	private static final double TIMER_THRESHOLD;
 	
 	static {
-    	switch (Robot.ROBOT_ID) {
+    	switch (Robot.getRobotId()) {
     	case 1:
     		TIMER_THRESHOLD = 0.2;
     		break;

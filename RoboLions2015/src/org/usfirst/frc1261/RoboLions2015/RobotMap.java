@@ -75,12 +75,15 @@ public class RobotMap {
         driveTrainrightBackDrive = new CANTalon(4);
         driveTrainleftBackDrive = new CANTalon(5);
         driveTrainleftFrontDrive = new CANTalon(6);
-        switch (Robot.ROBOT_ID) {
+        int robotId = Robot.getRobotId();
+        switch (robotId) {
         case 1:
         	forkSolenoid = new DoubleSolenoid(0,2,3);
+        	break;
         case 2:
         default:
         	forkSolenoid = new DoubleSolenoid(0,0,1);
+        	break;
         }
         driveTrainrobotDrive = new RobotDrive(driveTrainleftFrontDrive, driveTrainleftBackDrive, driveTrainrightFrontDrive, driveTrainrightBackDrive);
         driveTrainrobotDrive.setInvertedMotor(MotorType.kFrontRight, true);
