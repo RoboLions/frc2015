@@ -1,5 +1,11 @@
 <xml version="1.0">
 <dashboard>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.VideoStreamViewerExtension">
+		<location x="302" y="302"/>
+		<width>227</width>
+		<height>170</height>
+		<property name="Camera IP Address" value="169.254.12.61"/>
+	</static-widget>
 	<widget field="Robot ID: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="990" y="442"/>
 	</widget>
