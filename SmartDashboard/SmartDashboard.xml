@@ -1,10 +1,10 @@
 <xml version="1.0">
 <dashboard>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.VideoStreamViewerExtension">
+	<static-widget class="edu.wpi.first.smartdashboard.camera.VideoStreamExtension">
 		<location x="302" y="302"/>
 		<width>227</width>
 		<height>170</height>
-		<property name="Camera IP Address" value="10.12.61.19"/>
+		<property name="Video Path" value="http://axis-camera-1261.local/mjpg/video.mjpg"/>
 	</static-widget>
 	<widget field="Robot ID: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="990" y="442"/>

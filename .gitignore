@@ -1,29 +1,30 @@
 *target*
-*.jar
 *.war
 *.ear
 *.class
 *~
 
 # eclipse specific git ignore
-*.pydevproject
-.metadata
-bin/**
-tmp/**
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
+RoboLions2015/*.pydevproject
+RoboLions2015/.metadata
+RoboLions2015/build/**
+RoboLions2015/dist/**
+RoboLions2015/bin/**
+RoboLions2015/tmp/**
+RoboLions2015/tmp/**/*
+RoboLions2015/*.tmp
+RoboLions2015/*.bak
+RoboLions2015/*.swp
+RoboLions2015/*~.nib
+RoboLions2015/local.properties
+RoboLions2015/.settings/
+RoboLions2015/.loadpath
 
 # External tool builders
-.externalToolBuilders/
+**/.externalToolBuilders/
 
 # Locally stored "Eclipse launch configurations"
-*.launch
+**/*.launch
 
 # sysProps.xml is generated every time code is deployed to the robot.
-sysProps.xml
+**/sysProps.xml
