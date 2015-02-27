@@ -3,6 +3,7 @@ package org.usfirst.frc1261.RoboLions2015.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 
+import org.usfirst.frc1261.RoboLions2015.Robot;
 import org.usfirst.frc1261.RoboLions2015.subsystems.DriveTrain;
 /**
  *
@@ -26,6 +27,10 @@ public class Auto3ToteStackWithScoringPlatform extends CommandGroup {
         // e.g. if Command1 requires chassis, and Command2 requires arm,
         // a CommandGroup containing them would require both the chassis and the
         // arm.
+
+    	requires(Robot.driveTrain);
+    	requires(Robot.liftSystem);
+    	requires(Robot.manipulator);
     	
     	addSequential(new BringLiftDown());
     	addSequential(new PistonIn());

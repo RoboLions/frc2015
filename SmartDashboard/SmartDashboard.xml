@@ -1,5 +1,9 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Current Autonomous: " type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="644" y="442"/>
+		<width>301</width>
+	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.camera.VideoStreamExtension">
 		<location x="302" y="302"/>
 		<width>227</width>

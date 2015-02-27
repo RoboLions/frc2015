@@ -300,7 +300,7 @@ public class LiftSystem extends PIDSubsystem {
 	    	getPIDController().reset();
 	    	enable();
     	} else {
-    		stopLift();
+    		setSetpoint(returnPIDInput() + setpoint);
     	}
     }
     

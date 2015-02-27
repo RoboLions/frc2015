@@ -16,8 +16,10 @@ import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc1261.RoboLions2015.commands.*;
 import org.usfirst.frc1261.RoboLions2015.subsystems.*;
 import org.usfirst.frc1261.RoboLions2015.subsystems.LiftSystem.LiftNotCalibratedException;
 
@@ -43,6 +45,8 @@ public class Robot extends IterativeRobot {
 //    private static final int HIGH_QUALITY = 50;
 //    private int cameraSession;
 //    private Image cameraFrame;
+    
+    private SendableChooser autoChooser;
     
     public static int getRobotId() {
     	ROBOT_ID = Preferences.getInstance().getInt("RobotID", 2);
@@ -78,6 +82,16 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putBoolean(" Holding Lift", false);
         
+        // Autonomous chooser
+        autoChooser = new SendableChooser();
+        autoChooser.addDefault("3 Tote Stack (with scoring platform)", new Auto3ToteStackWithScoringPlatform());
+        autoChooser.addObject("1 Tote Push (with scoring platform)", new TotePushWithScoringPlatform());
+        autoChooser.addObject("3 Tote Stack (without scoring platform)", new Auto3ToteStackWithoutScoringPlatform());
+        autoChooser.addObject("1 Tote Push (without scoring platform)", new TotePushWithoutScoringPlatform());
+        autoChooser.addObject("Container Pull (without scoring platform) [experimental]", new AutoContainer());
+        autoChooser.addObject("None", new DummyCommand());
+        SmartDashboard.putData("Autonomous", autoChooser);
+        
         // Camera
 //        cameraServer = CameraServer.getInstance();
 //        cameraServer.setQuality(HIGH_QUALITY);
@@ -101,7 +115,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit() {
-    	autonomousCommand = (Command) oi.getAutoChooser().getSelected();
+    	autonomousCommand = (Command) autoChooser.getSelected();
     	
     	driveTrain.setSlowRampRate();
     	
@@ -153,7 +167,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean(" Pressure Light", manipulator.getPressureLight());
         SmartDashboard.putBoolean(" Lift Calibrated", liftSystem.isCalibrated());
         SmartDashboard.putNumber("Gyro: ", driveTrain.getAngle());
+        SmartDashboard.putString("Current Autonomous: ", ((Command) autoChooser.getSelected()).getName());
         SmartDashboard.putData(Scheduler.getInstance());
+        //SmartDashboard.putData("Autonomous", autoChooser);
         
         // Camera
 //        NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
