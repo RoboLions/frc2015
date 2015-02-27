@@ -29,30 +29,29 @@ public class Auto3ToteStackWithScoringPlatform extends CommandGroup {
     	
     	addSequential(new BringLiftDown());
     	addSequential(new PistonIn());
-    	addSequential(new WaitCommand(.2));
+    	addSequential(new WaitCommand(0.9)); // That's a lot.
     	// addSequential(new Raise1Unit()); * 2
     	addParallel(new GoToLiftPosition(208.0, 1.0));
     	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
-    	addSequential(new GoToLiftPosition(100.0, 1.0));
+    	addSequential(new GoToLiftPosition(100.0, 0.9));
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonOut());
     	addSequential(new WaitCommand(.2));
-    	addSequential(new AutoLowerLift());
+    	addSequential(new GoToLiftPosition(0.0, 0.9));
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonIn());
-    	addSequential(new WaitCommand(.2));
+    	addSequential(new WaitCommand(.5));
     	addParallel(new GoToLiftPosition(208.0, 1.0));
     	addSequential(new AutoGyroDriveForward(DriveTrain.crateToCrate + DriveTrain.forwardOffset, DriveTrain.forwardSpeed)); // + DriveTrain.forwardIncrementSpeed));
-    	addSequential(new GoToLiftPosition(100.0, 1.0));
+    	addSequential(new GoToLiftPosition(100.0, 0.9));
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonOut());
     	addSequential(new WaitCommand(.2));
-    	addSequential(new AutoLowerLift());
+    	addSequential(new GoToLiftPosition(0.0, 0.9));
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonIn());
     	addSequential(new AutoGyroRightTurn(80 + DriveTrain.turnRightOffset));
     	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZoneWithScoringPlatform, DriveTrain.forwardSpeed)); // + DriveTrain.forwardIncrementSpeed * 2));
     	addSequential(new PistonOut());
-    	
     }
 }

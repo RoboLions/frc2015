@@ -51,7 +51,7 @@ public class Auto3ToteStackWithoutScoringPlatform extends CommandGroup {
     	addSequential(new WaitCommand(.2));
     	addSequential(new PistonIn());
     	addSequential(new AutoGyroRightTurn(80 + DriveTrain.turnRightOffset));
-    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZoneWithScoringPlatform, DriveTrain.forwardSpeed)); // + DriveTrain.forwardIncrementSpeed * 2));
+    	addSequential(new AutoGyroDriveForward(DriveTrain.cratesToAutoZoneWithoutScoringPlatform, DriveTrain.forwardSpeed)); // + DriveTrain.forwardIncrementSpeed * 2));
     	addSequential(new PistonOut());
     	
     }
