@@ -34,7 +34,7 @@ public class DriveCommand extends Command {
     	boolean isFastEnabled = Robot.oi.driverRightBumper.get();
     	if(isFastEnabled){
     		throttle = handleDeadzone(throttle, fastDeadzone);
-    		turn = handleDeadzone(throttle, fastDeadzone);
+    		turn = handleDeadzone(turn, fastDeadzone);
     	}else{
     		throttle = handleDeadzone(throttle, deadzone);
     		turn = handleDeadzone(turn, deadzone);
