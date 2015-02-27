@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveCommand extends Command {
 	
 	double deadzone = 0.1;
-	double slowDeadzone = 0.02;
+	double fastDeadzone = 0.15;
 	
 	private double handleDeadzone(double power, double deadzone){
 		return (Math.abs(power) > deadzone ? power:0);
@@ -31,18 +31,15 @@ public class DriveCommand extends Command {
     protected void execute() {
     	double throttle = Robot.oi.driverJoystick.getRawAxis(1);
     	double turn = Robot.oi.driverJoystick.getRawAxis(4);
-    	boolean isSlowEnabled = Robot.oi.driverRightBumper.get();
-    	if(isSlowEnabled){
-    		throttle = handleDeadzone(throttle, slowDeadzone);
-    		turn = handleDeadzone(throttle, slowDeadzone);
+    	boolean isFastEnabled = Robot.oi.driverRightBumper.get();
+    	if(isFastEnabled){
+    		throttle = handleDeadzone(throttle, fastDeadzone);
+    		turn = handleDeadzone(throttle, fastDeadzone);
     	}else{
     		throttle = handleDeadzone(throttle, deadzone);
     		turn = handleDeadzone(turn, deadzone);
     	}
-    	if(isSlowEnabled){
-    		throttle = throttle / 3;
-    		turn = turn / 3;
-    	}else{
+    	if(!isFastEnabled){
     		throttle = throttle * 3 / 4;
     		turn = turn * 3 / 4;
     	}
