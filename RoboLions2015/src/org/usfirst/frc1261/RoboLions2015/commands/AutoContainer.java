@@ -35,14 +35,19 @@ public class AutoContainer extends CommandGroup {
     	
     	addSequential(new BringLiftDown());
     	addSequential(new GoToLiftPosition(40.0, 1.0));
-    	addParallel(new PistonIn());
+    	addSequential(new WaitCommand(0.2));
+    	addSequential(new PistonIn());
+    	addSequential(new WaitCommand(0.2));
     	addSequential(new GoToLiftPosition(250.0, 1.0));
+    	addSequential(new WaitCommand(0.2));
     	addSequential(new AutoGyroDriveReverse(6.5, DriveTrain.forwardSpeed));
     	addSequential(new WaitCommand(0.5));
     	addSequential(new AutoGyroLeftTurn(80 + DriveTrain.turnLeftOffset));
     	addSequential(new WaitCommand(0.5));
     	addSequential(new GoToLiftPosition(40.0, 0.9));
-    	addParallel(new PistonOut());
+    	addSequential(new WaitCommand(0.2));
+    	addSequential(new PistonOut());
+    	addSequential(new WaitCommand(0.2));
     	addSequential(new GoToLiftPosition(0.0, 0.9));
     	// 79 to 184
     }

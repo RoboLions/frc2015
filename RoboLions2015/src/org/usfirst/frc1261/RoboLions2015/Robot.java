@@ -88,7 +88,7 @@ public class Robot extends IterativeRobot {
         autoChooser.addObject("1 Tote Push (with scoring platform)", new TotePushWithScoringPlatform());
         autoChooser.addObject("3 Tote Stack (without scoring platform)", new Auto3ToteStackWithoutScoringPlatform());
         autoChooser.addObject("1 Tote Push (without scoring platform)", new TotePushWithoutScoringPlatform());
-        autoChooser.addObject("Container Pull (without scoring platform) [experimental]", new AutoContainer());
+        autoChooser.addObject("Container Pull (without scoring platform)", new AutoContainer());
         autoChooser.addObject("None", new DummyCommand());
         SmartDashboard.putData("Autonomous", autoChooser);
         
@@ -169,7 +169,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Gyro: ", driveTrain.getAngle());
         SmartDashboard.putString("Current Autonomous: ", ((Command) autoChooser.getSelected()).getName());
         SmartDashboard.putData(Scheduler.getInstance());
-        //SmartDashboard.putData("Autonomous", autoChooser);
+        SmartDashboard.putData("Autonomous", autoChooser);
         
         // Camera
 //        NIVision.IMAQdxGrab(cameraSession, cameraFrame, 1);
