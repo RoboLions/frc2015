@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
  */
 public class DriveTrain extends PIDSubsystem {
 
-	public static final double gyro_kP = 0.033;
+	public static final double gyro_kP = 0.02;
 	public static final double forwardSpeed = 0.45;
 	public static final double forwardIncrementSpeed = 0.069;
 	public static final double turnSpeed = 0.4;
@@ -72,6 +72,20 @@ public class DriveTrain extends PIDSubsystem {
 		super("DriveTrain", 0, 0, 0);
     	initStraightController();
     	initTurnController();
+	}
+	
+	public void setSlowRampRate() {
+		leftFrontDrive.setVoltageRampRate(18.0);
+		rightFrontDrive.setVoltageRampRate(18.0);
+		leftBackDrive.setVoltageRampRate(18.0);
+		rightBackDrive.setVoltageRampRate(18.0);
+	}
+	
+	public void setFastRampRate() {
+		leftFrontDrive.setVoltageRampRate(36.0);
+		rightFrontDrive.setVoltageRampRate(36.0);
+		leftBackDrive.setVoltageRampRate(36.0);
+		rightBackDrive.setVoltageRampRate(36.0);
 	}
 	
     public RobotDrive getRobotDrive() {

@@ -34,6 +34,7 @@ public class AutoGyroDriveForward extends Command {
 		double angleError = Robot.driveTrain.getAngle();
 		double curveOffset = angleError * DriveTrain.gyro_kP;
 		Robot.driveTrain.getRobotDrive().drive(-outputPower, -curveOffset);
+		//Robot.driveTrain.getRobotDrive().drive(Math.max(-outputPower * timer.get() * 1, -outputPower), -curveOffset);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

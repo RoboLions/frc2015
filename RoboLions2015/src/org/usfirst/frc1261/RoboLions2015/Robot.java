@@ -103,6 +103,8 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	autonomousCommand = (Command) oi.getAutoChooser().getSelected();
     	
+    	driveTrain.setSlowRampRate();
+    	
         // schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
     }
@@ -121,6 +123,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        driveTrain.setFastRampRate();
     }
 
     /**

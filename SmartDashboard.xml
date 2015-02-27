@@ -4,18 +4,18 @@
 		<location x="302" y="302"/>
 		<width>227</width>
 		<height>170</height>
-		<property name="Camera IP Address" value="169.254.12.61"/>
+		<property name="Camera IP Address" value="10.12.61.19"/>
 	</static-widget>
 	<widget field="Robot ID: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="990" y="442"/>
 	</widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="990" y="76"/>
-		<property name="Text" value="Autonomous Program:"/>
-	</static-widget>
 	<widget field="Autonomous" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
 		<location x="989" y="83"/>
 	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="989" y="76"/>
+		<property name="Text" value="Autonomous Program:"/>
+	</static-widget>
 	<widget field=" Lift Calibrated" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.BooleanBox">
 		<location x="17" y="434"/>
 	</widget>
