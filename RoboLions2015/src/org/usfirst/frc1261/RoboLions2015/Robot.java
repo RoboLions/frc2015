@@ -41,12 +41,38 @@ public class Robot extends IterativeRobot {
     public static Manipulator manipulator;
     
     private static int ROBOT_ID = 2;
+    
+    private static final String SENDABLECHOOSER_SELECTED = "selected";
 //    private CameraServer cameraServer;
 //    private static final int HIGH_QUALITY = 50;
 //    private int cameraSession;
 //    private Image cameraFrame;
     
-    private SendableChooser autoChooser;
+    public static SendableChooser autoChooser;
+    
+    // Autonomous string constants
+    private static final String AUTO_3_TOTE = "3 Tote Stack";
+    private static final String AUTO_TOTE_PUSH = "1 Tote Push";
+    private static final String AUTO_CONTAINER = "Container Pull";
+    private static final String AUTO_W_SCORING_PLATFORM = " (with scoring platform)";
+    private static final String AUTO_WO_SCORING_PLATFORM = " (without scoring platform)";
+    private static final String AUTO_NONE = "None";
+    
+    private static final String DEFAULT_AUTO = AUTO_CONTAINER + AUTO_WO_SCORING_PLATFORM;
+    
+    private void initAutoChooser() {
+    	autoChooser = new SendableChooser();
+        autoChooser.addObject(AUTO_3_TOTE + AUTO_W_SCORING_PLATFORM, new Auto3ToteStackWithScoringPlatform());
+        autoChooser.addObject(AUTO_TOTE_PUSH + AUTO_W_SCORING_PLATFORM, new TotePushWithScoringPlatform());
+        autoChooser.addObject(AUTO_3_TOTE + AUTO_WO_SCORING_PLATFORM, new Auto3ToteStackWithoutScoringPlatform());
+        autoChooser.addObject(AUTO_TOTE_PUSH + AUTO_WO_SCORING_PLATFORM, new TotePushWithoutScoringPlatform());
+        
+        autoChooser.addDefault(AUTO_CONTAINER + AUTO_WO_SCORING_PLATFORM, new AutoContainer());
+        
+        autoChooser.addObject(AUTO_NONE, new DummyCommand());
+        SmartDashboard.putData("Autonomous", autoChooser);
+        autoChooser.getTable().putString(SENDABLECHOOSER_SELECTED, autoChooser.getTable().getString(SENDABLECHOOSER_SELECTED, DEFAULT_AUTO)); // Force refresh of SmartDashboard SendableChooser UI
+    }
     
     public static int getRobotId() {
     	ROBOT_ID = Preferences.getInstance().getInt("RobotID", 2);
@@ -82,15 +108,7 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putBoolean(" Holding Lift", false);
         
-        // Autonomous chooser
-        autoChooser = new SendableChooser();
-        autoChooser.addDefault("3 Tote Stack (with scoring platform)", new Auto3ToteStackWithScoringPlatform());
-        autoChooser.addObject("1 Tote Push (with scoring platform)", new TotePushWithScoringPlatform());
-        autoChooser.addObject("3 Tote Stack (without scoring platform)", new Auto3ToteStackWithoutScoringPlatform());
-        autoChooser.addObject("1 Tote Push (without scoring platform)", new TotePushWithoutScoringPlatform());
-        autoChooser.addObject("Container Pull (without scoring platform)", new AutoContainer());
-        autoChooser.addObject("None", new DummyCommand());
-        SmartDashboard.putData("Autonomous", autoChooser);
+        initAutoChooser();
         
         // Camera
 //        cameraServer = CameraServer.getInstance();
@@ -167,8 +185,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean(" Pressure Light", manipulator.getPressureLight());
         SmartDashboard.putBoolean(" Lift Calibrated", liftSystem.isCalibrated());
         SmartDashboard.putNumber("Gyro: ", driveTrain.getAngle());
-        SmartDashboard.putString("Current Autonomous: ", ((Command) autoChooser.getSelected()).getName());
         SmartDashboard.putData(Scheduler.getInstance());
+        SmartDashboard.putString("Current Autonomous: ", autoChooser.getTable().getString(SENDABLECHOOSER_SELECTED, "Unknown; will run \"" + DEFAULT_AUTO + "\""));
         SmartDashboard.putData("Autonomous", autoChooser);
         
         // Camera
