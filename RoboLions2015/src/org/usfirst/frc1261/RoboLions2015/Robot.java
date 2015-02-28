@@ -41,21 +41,19 @@ public class Robot extends IterativeRobot {
     public static Manipulator manipulator;
     
     private static int ROBOT_ID = 2;
+    
+    private static final String SENDABLECHOOSER_SELECTED = "selected";
 //    private CameraServer cameraServer;
 //    private static final int HIGH_QUALITY = 50;
 //    private int cameraSession;
 //    private Image cameraFrame;
     
-    private static SendableChooser autoChooser;
+    public static SendableChooser autoChooser;
     
     public static int getRobotId() {
     	ROBOT_ID = Preferences.getInstance().getInt("RobotID", 2);
     	SmartDashboard.putNumber("Robot ID: ", ROBOT_ID);
     	return ROBOT_ID;
-    }
-    
-    public static SendableChooser getAutoChooser() {
-    	return autoChooser;
     }
     
     /**
@@ -172,7 +170,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean(" Pressure Light", manipulator.getPressureLight());
         SmartDashboard.putBoolean(" Lift Calibrated", liftSystem.isCalibrated());
         SmartDashboard.putNumber("Gyro: ", driveTrain.getAngle());
-        SmartDashboard.putString("Current Autonomous: ", ((Command) autoChooser.getSelected()).getName());
+        SmartDashboard.putString("Current Autonomous: ", autoChooser.getTable().getString(SENDABLECHOOSER_SELECTED, "Unknown"));
         SmartDashboard.putData(Scheduler.getInstance());
         SmartDashboard.putData("Autonomous", autoChooser);
         
