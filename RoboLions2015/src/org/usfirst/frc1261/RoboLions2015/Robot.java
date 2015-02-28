@@ -46,12 +46,16 @@ public class Robot extends IterativeRobot {
 //    private int cameraSession;
 //    private Image cameraFrame;
     
-    private SendableChooser autoChooser;
+    private static SendableChooser autoChooser;
     
     public static int getRobotId() {
     	ROBOT_ID = Preferences.getInstance().getInt("RobotID", 2);
     	SmartDashboard.putNumber("Robot ID: ", ROBOT_ID);
     	return ROBOT_ID;
+    }
+    
+    public static SendableChooser getAutoChooser() {
+    	return autoChooser;
     }
     
     /**
@@ -84,11 +88,11 @@ public class Robot extends IterativeRobot {
         
         // Autonomous chooser
         autoChooser = new SendableChooser();
-        autoChooser.addDefault("3 Tote Stack (with scoring platform)", new Auto3ToteStackWithScoringPlatform());
+        autoChooser.addObject("3 Tote Stack (with scoring platform)", new Auto3ToteStackWithScoringPlatform());
         autoChooser.addObject("1 Tote Push (with scoring platform)", new TotePushWithScoringPlatform());
         autoChooser.addObject("3 Tote Stack (without scoring platform)", new Auto3ToteStackWithoutScoringPlatform());
         autoChooser.addObject("1 Tote Push (without scoring platform)", new TotePushWithoutScoringPlatform());
-        autoChooser.addObject("Container Pull (without scoring platform)", new AutoContainer());
+        autoChooser.addDefault("Container Pull (without scoring platform)", new AutoContainer());
         autoChooser.addObject("None", new DummyCommand());
         SmartDashboard.putData("Autonomous", autoChooser);
         
@@ -115,7 +119,8 @@ public class Robot extends IterativeRobot {
     }
 
     public void autonomousInit() {
-    	autonomousCommand = (Command) autoChooser.getSelected();
+    	// autonomousCommand = (Command) autoChooser.getSelected();
+    	autonomousCommand = new AutonomousStarter();
     	
     	driveTrain.setSlowRampRate();
     	
