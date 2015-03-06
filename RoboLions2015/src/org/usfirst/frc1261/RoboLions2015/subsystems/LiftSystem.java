@@ -52,6 +52,8 @@ public class LiftSystem extends PIDSubsystem {
     
     // Max lift motor speed
     private static final double MAX_LIFT_SPEED = 0.65;
+    // Max lift motor speed in turbo mode
+    private static final double MAX_TURBO_LIFT_SPEED = 0.85;
     
     public boolean override = false;
     
@@ -306,7 +308,7 @@ public class LiftSystem extends PIDSubsystem {
     
     public void moveLiftTo(double setpoint, double power)
     {
-    	setOutputRange(-power, power);
+    	setLiftPower(power);
     	moveLiftTo(setpoint);
     }
     
@@ -328,10 +330,22 @@ public class LiftSystem extends PIDSubsystem {
     
     public void stopLift() {
     	setLiftSpeed(0.0);
-    	setOutputRange(-MAX_LIFT_SPEED, MAX_LIFT_SPEED);
+    	resetLiftPower();
     }
     
-    public void holdLift() {
+    public void setLiftPower(double power) {
+    	setOutputRange(-power, power);
+    }
+    
+    public void enableLiftTurboMode() {
+    	setLiftPower(MAX_TURBO_LIFT_SPEED);
+    }
+    
+    public void resetLiftPower() {
+    	setLiftPower(MAX_LIFT_SPEED);
+	}
+
+	public void holdLift() {
     	if (getPIDController().isEnable()) disable();
     	setSetpoint(returnPIDInput());
     	getPIDController().reset();
