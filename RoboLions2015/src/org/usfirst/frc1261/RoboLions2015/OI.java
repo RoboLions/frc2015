@@ -90,13 +90,13 @@ public class OI {
         manipBack = new JoystickButton(manipulatorJoystick, 7);
         manipBack.whenPressed(new DummyCommand());
         manipRightBumper = new JoystickButton(manipulatorJoystick, 6);
-        manipRightBumper.whileHeld(new ManualTurboRaiseLift());
+        manipRightBumper.whileHeld(new ManualRaiseLift());
         manipLeftBumper = new JoystickButton(manipulatorJoystick, 5);
-        manipLeftBumper.whileHeld(new ManualTurboLowerLift());
+        manipLeftBumper.whileHeld(new ManualLowerLift());
         manipY = new JoystickButton(manipulatorJoystick, 4);
-        manipY.whileHeld(new ManualRaiseLift());
+        manipY.whileHeld(new ManualTurboRaiseLift());
         manipX = new JoystickButton(manipulatorJoystick, 3);
-        manipX.whileHeld(new ManualLowerLift());
+        manipX.whileHeld(new ManualTurboLowerLift());
         manipB = new JoystickButton(manipulatorJoystick, 2);
         manipB.whenPressed(new Raise1Unit());
         manipA = new JoystickButton(manipulatorJoystick, 1);
