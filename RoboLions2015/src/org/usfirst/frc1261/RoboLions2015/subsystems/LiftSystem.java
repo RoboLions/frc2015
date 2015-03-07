@@ -53,7 +53,7 @@ public class LiftSystem extends PIDSubsystem {
     // Max lift motor speed
     private static final double MAX_LIFT_SPEED = 0.65;
     // Max lift motor speed in turbo mode
-    private static final double MAX_TURBO_LIFT_SPEED = 0.85;
+    private static final double MAX_TURBO_LIFT_SPEED = 1.0;
     
     public boolean override = false;
     
