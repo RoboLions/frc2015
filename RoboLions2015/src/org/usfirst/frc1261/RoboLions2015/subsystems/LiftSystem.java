@@ -95,7 +95,7 @@ public class LiftSystem extends PIDSubsystem {
     	}
     }
     
-    private double currentLiftSpeed = MAX_LIFT_SPEED;
+    private double currentMaxLiftSpeed = MAX_LIFT_SPEED;
     
     private double liftEncoderResetValue = 0.0;
     
@@ -112,7 +112,7 @@ public class LiftSystem extends PIDSubsystem {
         super("LiftSystem", kP, kI, kD);
         setAbsoluteTolerance(TOLERANCE);
         getPIDController().setContinuous(false);
-        setOutputRange(-MAX_LIFT_SPEED, MAX_LIFT_SPEED);
+        setOutputRange(-currentMaxLiftSpeed, currentMaxLiftSpeed);
         LiveWindow.addActuator("LiftSystem", "PIDSubsystem Controller", getPIDController());
         
         Arrays.sort(SETPOINTS);
@@ -227,7 +227,7 @@ public class LiftSystem extends PIDSubsystem {
     		getPIDController().reset();
         	enable();
     	} else {
-    		setLiftSpeed(currentLiftSpeed);
+    		setLiftSpeed(currentMaxLiftSpeed);
     	}
     }
     
@@ -242,7 +242,7 @@ public class LiftSystem extends PIDSubsystem {
 	    	getPIDController().reset();
 	    	enable();
     	} else {
-    		setLiftSpeed(-currentLiftSpeed);
+    		setLiftSpeed(-currentMaxLiftSpeed);
     	}
     }
     
@@ -337,7 +337,7 @@ public class LiftSystem extends PIDSubsystem {
     
     public void setLiftPower(double power) {
     	setOutputRange(-power, power);
-    	currentLiftSpeed = power;
+    	currentMaxLiftSpeed = power;
     }
     
     public void enableLiftTurboMode() {
@@ -361,8 +361,8 @@ public class LiftSystem extends PIDSubsystem {
     		return;
     	}
     	if (getPIDController().isEnable()) disable();
-    	backLiftMotor.set(Math.max(Math.min(liftSpeed, MAX_LIFT_SPEED), -MAX_LIFT_SPEED));
-    	frontLiftMotor.set(Math.max(Math.min(liftSpeed, MAX_LIFT_SPEED), -MAX_LIFT_SPEED));
+    	backLiftMotor.set(Math.max(Math.min(liftSpeed, currentMaxLiftSpeed), -currentMaxLiftSpeed));
+    	frontLiftMotor.set(Math.max(Math.min(liftSpeed, currentMaxLiftSpeed), -currentMaxLiftSpeed));
     }
     
     public static double convertInchesToLiftHeight(double inches) {
