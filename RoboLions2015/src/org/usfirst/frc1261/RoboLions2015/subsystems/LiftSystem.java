@@ -95,6 +95,8 @@ public class LiftSystem extends PIDSubsystem {
     	}
     }
     
+    private double currentLiftSpeed = MAX_LIFT_SPEED;
+    
     private double liftEncoderResetValue = 0.0;
     
     private boolean calibrated = false;
@@ -225,7 +227,7 @@ public class LiftSystem extends PIDSubsystem {
     		getPIDController().reset();
         	enable();
     	} else {
-    		setLiftSpeed(MAX_LIFT_SPEED);
+    		setLiftSpeed(currentLiftSpeed);
     	}
     }
     
@@ -240,7 +242,7 @@ public class LiftSystem extends PIDSubsystem {
 	    	getPIDController().reset();
 	    	enable();
     	} else {
-    		setLiftSpeed(-MAX_LIFT_SPEED);
+    		setLiftSpeed(-currentLiftSpeed);
     	}
     }
     
@@ -335,6 +337,7 @@ public class LiftSystem extends PIDSubsystem {
     
     public void setLiftPower(double power) {
     	setOutputRange(-power, power);
+    	currentLiftSpeed = power;
     }
     
     public void enableLiftTurboMode() {
