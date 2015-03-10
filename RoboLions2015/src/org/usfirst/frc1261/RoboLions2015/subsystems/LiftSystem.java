@@ -57,10 +57,6 @@ public class LiftSystem extends PIDSubsystem {
     
     public boolean override = false;
     
-    // PID constants
-    private static final double kP = 0.05;
-    private static final double kI = 0.0;
-    private static final double kD = 0.01;
     private static final double TOLERANCE = 5.0;
     
     private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
@@ -99,18 +95,41 @@ public class LiftSystem extends PIDSubsystem {
     
     private boolean calibrated = false;
     
+    private PIDMode currentPIDMode = PIDMode.TELEOP;
+    
     public class LiftNotCalibratedException extends Exception {
 
 		private static final long serialVersionUID = 2653145509710812617L;
     	
     }
     
+    public static class PIDMode {
+    	
+    	// PID constants
+    	public static final PIDMode AUTONOMOUS = new PIDMode(0.05, 0.0, 0.01);
+    	public static final PIDMode TELEOP = new PIDMode(0.0, 0.0, 0.02);
+    	public static final PIDMode HOLD_LIFT = new PIDMode(0.035, 0.001, 0.01);
+    	
+    	public final double kP;
+    	public final double kI;
+    	public final double kD;
+    	
+    	public PIDMode(double kP, double kI, double kD) {
+    		this.kP = kP;
+    		this.kI = kI;
+    		this.kD = kD;
+    	}
+    }
+    
     // Initialize your subsystem here
     public LiftSystem() {
-        super("LiftSystem", kP, kI, kD);
+        super("LiftSystem", PIDMode.TELEOP.kP, PIDMode.TELEOP.kI, PIDMode.TELEOP.kD);
         setAbsoluteTolerance(TOLERANCE);
         getPIDController().setContinuous(false);
         setOutputRange(-MAX_LIFT_SPEED, MAX_LIFT_SPEED);
+        // Voltage ramp rates are stupid.
+        // backLiftMotor.setVoltageRampRate(12.0);
+        // frontLiftMotor.setVoltageRampRate(12.0);
         LiveWindow.addActuator("LiftSystem", "PIDSubsystem Controller", getPIDController());
         
         Arrays.sort(SETPOINTS);
@@ -328,9 +347,32 @@ public class LiftSystem extends PIDSubsystem {
     	stopLift();
     }
     
-    public void stopLift() {
+    public void setPIDConstants(double kP, double kI, double kD, boolean temporary) {
+    	stopLift(false);
+    	getPIDController().setPID(kP, kI, kD);
+    	if (!temporary) currentPIDMode = new PIDMode(kP, kI, kD);
+    }
+    
+    public void setPIDConstants(double kP, double kI, double kD) {
+    	setPIDConstants(kP, kI, kD, false);
+    }
+    
+    public void setPIDConstants(PIDMode mode, boolean temporary) {
+    	setPIDConstants(mode.kP, mode.kI, mode.kD, temporary);
+    }
+    
+    public void setPIDConstants(PIDMode mode) {
+    	setPIDConstants(mode, false);
+    }
+    
+    public void stopLift(boolean resetPIDConstants) {
     	setLiftSpeed(0.0);
     	resetLiftPower();
+    	if (resetPIDConstants) setPIDConstants(currentPIDMode);
+    }
+    
+    public void stopLift() {
+    	stopLift(true);
     }
     
     public void setLiftPower(double power) {
@@ -347,6 +389,7 @@ public class LiftSystem extends PIDSubsystem {
 
 	public void holdLift() {
     	if (getPIDController().isEnable()) disable();
+    	setPIDConstants(PIDMode.HOLD_LIFT);
     	setSetpoint(returnPIDInput());
     	getPIDController().reset();
     	enable();

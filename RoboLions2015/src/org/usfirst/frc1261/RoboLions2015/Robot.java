@@ -136,6 +136,7 @@ public class Robot extends IterativeRobot {
     	autonomousCommand = (Command) autoChooser.getSelected();
     	
     	driveTrain.setSlowRampRate();
+    	liftSystem.setPIDConstants(LiftSystem.PIDMode.AUTONOMOUS);
     	
         // schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
@@ -156,6 +157,7 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         driveTrain.setFastRampRate();
+        liftSystem.setPIDConstants(LiftSystem.PIDMode.TELEOP);
     }
 
     /**
