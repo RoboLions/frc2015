@@ -60,13 +60,14 @@ public class LiftSystem extends PIDSubsystem {
     // PID onTarget() tolerance
     private static final double TOLERANCE = 5.0;
     
-    private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
+    //private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
+    private static double[] SETPOINTS = {488.0};
     // private static double[] SETPOINTS = {467.0};
     private static double ENCODER_LEVEL_INCREMENT = 150.0;
     private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
     public static final PIDMode DEFAULT_PID_MODE = PIDMode.TELEOP;
-    private static final double RAMP_UP_RATE = 2.5;
-    private static final double RAMP_DOWN_RATE = 5.0;
+    private static final double RAMP_UP_RATE = 5;
+    private static final double RAMP_DOWN_RATE = 5;
     
     static {
     	switch (Robot.getRobotId()) {
@@ -113,7 +114,7 @@ public class LiftSystem extends PIDSubsystem {
     	
     	// PID constants
     	public static final PIDMode AUTONOMOUS = new PIDMode(0.05, 0.0, 0.01);
-    	public static final PIDMode TELEOP = new PIDMode(0.015, 0.0, 0.02, true);
+    	public static final PIDMode TELEOP = new PIDMode(0.035, 0.0, 0.01, true);
     	public static final PIDMode HOLD_LIFT = new PIDMode(0.035, 0.001, 0.01);
     	
     	public final double kP;
