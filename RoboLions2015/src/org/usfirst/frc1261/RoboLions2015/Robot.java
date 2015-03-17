@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc1261.RoboLions2015.commands.*;
 import org.usfirst.frc1261.RoboLions2015.subsystems.*;
-import org.usfirst.frc1261.RoboLions2015.subsystems.LiftSystem.LiftNotCalibratedException;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -56,6 +55,8 @@ public class Robot extends IterativeRobot {
     private static final String AUTO_CONTAINER = "Container Pull";
     private static final String AUTO_W_SCORING_PLATFORM = " (with scoring platform)";
     private static final String AUTO_WO_SCORING_PLATFORM = " (without scoring platform)";
+    private static final String AUTO_CONTAINER_STACK = "Container Tote Stack";
+    private static final String AUTO_CONTAINER_READY = "Container Ready";
     private static final String AUTO_NONE = "None";
     
     private static final String DEFAULT_AUTO = AUTO_CONTAINER + AUTO_WO_SCORING_PLATFORM;
@@ -66,7 +67,8 @@ public class Robot extends IterativeRobot {
         autoChooser.addObject(AUTO_TOTE_PUSH + AUTO_W_SCORING_PLATFORM, new TotePushWithScoringPlatform());
         autoChooser.addObject(AUTO_3_TOTE + AUTO_WO_SCORING_PLATFORM, new Auto3ToteStackWithoutScoringPlatform());
         autoChooser.addObject(AUTO_TOTE_PUSH + AUTO_WO_SCORING_PLATFORM, new TotePushWithoutScoringPlatform());
-        
+        autoChooser.addObject(AUTO_CONTAINER_STACK + AUTO_WO_SCORING_PLATFORM, new AutoContainerToteStackWithoutScoringPlatform());
+        autoChooser.addObject(AUTO_CONTAINER_READY, new AutoContainerReady());
         autoChooser.addDefault(AUTO_CONTAINER + AUTO_WO_SCORING_PLATFORM, new AutoContainer());
         
         autoChooser.addObject(AUTO_NONE, new DummyCommand());
@@ -125,6 +127,7 @@ public class Robot extends IterativeRobot {
      */
     public void disabledInit(){
     	Robot.liftSystem.override = false;
+    	liftSystem.setPIDConstants(LiftSystem.DEFAULT_PID_MODE);
     }
 
     public void disabledPeriodic() {
@@ -136,6 +139,7 @@ public class Robot extends IterativeRobot {
     	autonomousCommand = (Command) autoChooser.getSelected();
     	
     	driveTrain.setSlowRampRate();
+    	liftSystem.setPIDConstants(LiftSystem.PIDMode.AUTONOMOUS);
     	
         // schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
@@ -156,6 +160,7 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         driveTrain.setFastRampRate();
+        liftSystem.setPIDConstants(LiftSystem.PIDMode.TELEOP);
     }
 
     /**
@@ -171,7 +176,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putBoolean(" Lower Limit Switch", liftSystem.hitLowerLimit());
         try {
 			SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getLiftHeight());
-		} catch (LiftNotCalibratedException e) {
+		} catch (LiftSystem.LiftNotCalibratedException e) {
 			SmartDashboard.putNumber("Lift Encoder: ", liftSystem.getRawLiftHeight());
 		}
         SmartDashboard.putNumber("Left Encoder: ", driveTrain.getLeftEncoder().get());
@@ -187,6 +192,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Gyro: ", driveTrain.getAngle());
         SmartDashboard.putData(Scheduler.getInstance());
         SmartDashboard.putString("Current Autonomous: ", autoChooser.getTable().getString(SENDABLECHOOSER_SELECTED, "Unknown; will run \"" + DEFAULT_AUTO + "\""));
+        Preferences.getInstance().putDouble("PID_kP", liftSystem.getCurrentPIDMode().kP);
+        Preferences.getInstance().putDouble("PID_kI", liftSystem.getCurrentPIDMode().kI);
+        Preferences.getInstance().putDouble("PID_kD", liftSystem.getCurrentPIDMode().kD);
         SmartDashboard.putData("Autonomous", autoChooser);
         
         // Camera

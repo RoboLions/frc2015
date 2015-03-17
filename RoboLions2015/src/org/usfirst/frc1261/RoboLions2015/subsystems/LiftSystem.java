@@ -11,8 +11,6 @@
 
 package org.usfirst.frc1261.RoboLions2015.subsystems;
 
-import java.util.Arrays;
-
 import org.usfirst.frc1261.RoboLions2015.Robot;
 import org.usfirst.frc1261.RoboLions2015.RobotMap;
 import org.usfirst.frc1261.RoboLions2015.commands.HoldLift;
@@ -57,17 +55,17 @@ public class LiftSystem extends PIDSubsystem {
     
     public boolean override = false;
     
-    // PID constants
-    private static final double kP = 0.05;
-    private static final double kI = 0.0;
-    private static final double kD = 0.01;
+    // PID onTarget() tolerance
     private static final double TOLERANCE = 5.0;
     
-    private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
+    //private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
+    // private static double[] SETPOINTS = {473.0};
     // private static double[] SETPOINTS = {467.0};
-    private static double ENCODER_LEVEL_INCREMENT = 150.0;
-    
-    private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
+    // private static double ENCODER_LEVEL_INCREMENT = 150.0;
+    // private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
+    public static final PIDMode DEFAULT_PID_MODE = PIDMode.TELEOP;
+    private static final double RAMP_UP_RATE = 7.5;
+    private static final double RAMP_DOWN_RATE = 5;
     
     static {
     	switch (Robot.getRobotId()) {
@@ -96,10 +94,13 @@ public class LiftSystem extends PIDSubsystem {
     }
     
     private double currentMaxLiftSpeed = MAX_LIFT_SPEED;
-    
     private double liftEncoderResetValue = 0.0;
-    
     private boolean calibrated = false;
+    private PIDMode currentPIDMode = DEFAULT_PID_MODE;
+    private PIDMode currentPIDModeIncludingTemporary = DEFAULT_PID_MODE;
+    private double lastPIDOutputValue = 0.0;
+    private double lastPIDOutputTime = 0.0;
+    private Timer timer = new Timer();
     
     public class LiftNotCalibratedException extends Exception {
 
@@ -107,15 +108,42 @@ public class LiftSystem extends PIDSubsystem {
     	
     }
     
+    public static class PIDMode {
+    	
+    	// PID constants
+    	public static final PIDMode AUTONOMOUS = new PIDMode(0.05, 0.0, 0.01);
+    	public static final PIDMode TELEOP = new PIDMode(0.035, 0.0, 0.01, true);
+    	public static final PIDMode HOLD_LIFT = new PIDMode(0.035, 0.001, 0.01);
+    	
+    	public final double kP;
+    	public final double kI;
+    	public final double kD;
+    	public final boolean rampingEnabled; 
+    	
+    	public PIDMode(double kP, double kI, double kD) {
+    		this.kP = kP;
+    		this.kI = kI;
+    		this.kD = kD;
+    		this.rampingEnabled = false;
+    	}
+    	
+    	public PIDMode(double kP, double kI, double kD, boolean rampingEnabled) {
+    		this.kP = kP;
+    		this.kI = kI;
+    		this.kD = kD;
+    		this.rampingEnabled = rampingEnabled;
+    	}
+    }
+    
     // Initialize your subsystem here
     public LiftSystem() {
-        super("LiftSystem", kP, kI, kD);
+        super("LiftSystem", DEFAULT_PID_MODE.kP, DEFAULT_PID_MODE.kI, DEFAULT_PID_MODE.kD);
         setAbsoluteTolerance(TOLERANCE);
         getPIDController().setContinuous(false);
         setOutputRange(-currentMaxLiftSpeed, currentMaxLiftSpeed);
         LiveWindow.addActuator("LiftSystem", "PIDSubsystem Controller", getPIDController());
         
-        Arrays.sort(SETPOINTS);
+        // Arrays.sort(SETPOINTS);
 
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
@@ -126,6 +154,15 @@ public class LiftSystem extends PIDSubsystem {
         
         hitLowerLimit();
         hitUpperLimit();
+    }
+    
+    @Override
+    public void enable() {
+    	timer.stop();
+    	timer.reset();
+    	timer.start();
+    	lastPIDOutputTime = 0.0;
+    	super.enable();
     }
     
     public boolean isCalibrated() {
@@ -169,12 +206,34 @@ public class LiftSystem extends PIDSubsystem {
     protected void usePIDOutput(double output) {
         // Use output to drive your system, like a motor
         // e.g. yourMotor.set(output);
+    	
+    	// Ramp
+    	if (currentPIDModeIncludingTemporary.rampingEnabled) {
+	    	if (output >= 0.0) {
+	    		output = Math.min(output, lastPIDOutputValue + (currentMaxLiftSpeed * RAMP_UP_RATE * (timer.get() - lastPIDOutputTime)));
+	    		output = Math.max(output, lastPIDOutputValue - (RAMP_DOWN_RATE * (timer.get() - lastPIDOutputTime)));
+	    	} else {
+	    		output = Math.max(output, lastPIDOutputValue - (currentMaxLiftSpeed * RAMP_UP_RATE * (timer.get() - lastPIDOutputTime)));
+	    		output = Math.min(output, lastPIDOutputValue + (RAMP_DOWN_RATE * (timer.get() - lastPIDOutputTime)));
+	    	}
+    	}
+    	
     	if ((output < 0.0 && hitLowerLimit()) || (output > 0.0 && hitUpperLimit())) {
-    		usePIDOutput(0.0);
+    		backLiftMotor.pidWrite(0.0);
+        	frontLiftMotor.pidWrite(0.0);
+        	lastPIDOutputValue = 0.0;
+        	lastPIDOutputTime = timer.get();
     		return;
     	}
+    	
     	backLiftMotor.pidWrite(output);
     	frontLiftMotor.pidWrite(output);
+    	lastPIDOutputValue = output;
+    	lastPIDOutputTime = timer.get();
+    }
+    
+    public double getLastPIDOutputValue() {
+    	return lastPIDOutputValue;
     }
     
     public boolean hitLowerLimit() {
@@ -246,51 +305,51 @@ public class LiftSystem extends PIDSubsystem {
     	}
     }
     
-    public void raiseLiftOneLevel() {
-    	if (hitUpperLimit()) {
-    		stopLift();
-    		return;
-    	}
-    	if (calibrated) {
-	    	double currentValue = returnPIDInput();
-	    	double setpoint;
-	    	int arrayIndex = 0;
-	    	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + SETPOINT_TOLERANCE) {
-	    		arrayIndex++;
-	    	}
-	    	setpoint = (arrayIndex >= SETPOINTS.length) ? LIFT_ENCODER_MAX : SETPOINTS[arrayIndex];
-	    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
-	    	if (getPIDController().isEnable()) disable();
-	    	setSetpoint(setpoint);
-	    	getPIDController().reset();
-	    	enable();
-    	} else {
-    		setSetpoint(returnPIDInput() + ENCODER_LEVEL_INCREMENT);
-    	}
-    }
-    
-    public void lowerLiftOneLevel() {
-    	if (hitLowerLimit()) {
-    		stopLift();
-    		return;
-    	}
-    	if (calibrated) {
-	    	double currentValue = returnPIDInput();
-	    	double setpoint;
-	    	int arrayIndex = SETPOINTS.length - 1;
-	    	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - SETPOINT_TOLERANCE) {
-	    		arrayIndex--;
-	    	}
-	    	setpoint = (arrayIndex < 0) ? LIFT_ENCODER_MIN : SETPOINTS[arrayIndex];
-	    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
-	    	if (getPIDController().isEnable()) disable();
-	    	setSetpoint(setpoint);
-	    	getPIDController().reset();
-	    	enable();
-    	} else {
-    		setSetpoint(returnPIDInput() - ENCODER_LEVEL_INCREMENT);
-    	}
-    }
+//    public void raiseLiftOneLevel() {
+//    	if (hitUpperLimit()) {
+//    		stopLift();
+//    		return;
+//    	}
+//    	if (calibrated) {
+//	    	double currentValue = returnPIDInput();
+//	    	double setpoint;
+//	    	int arrayIndex = 0;
+//	    	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + SETPOINT_TOLERANCE) {
+//	    		arrayIndex++;
+//	    	}
+//	    	setpoint = (arrayIndex >= SETPOINTS.length) ? LIFT_ENCODER_MAX : SETPOINTS[arrayIndex];
+//	    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
+//	    	if (getPIDController().isEnable()) disable();
+//	    	setSetpoint(setpoint);
+//	    	getPIDController().reset();
+//	    	enable();
+//    	} else {
+//    		setSetpoint(returnPIDInput() + ENCODER_LEVEL_INCREMENT);
+//    	}
+//    }
+//    
+//    public void lowerLiftOneLevel() {
+//    	if (hitLowerLimit()) {
+//    		stopLift();
+//    		return;
+//    	}
+//    	if (calibrated) {
+//	    	double currentValue = returnPIDInput();
+//	    	double setpoint;
+//	    	int arrayIndex = SETPOINTS.length - 1;
+//	    	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - SETPOINT_TOLERANCE) {
+//	    		arrayIndex--;
+//	    	}
+//	    	setpoint = (arrayIndex < 0) ? LIFT_ENCODER_MIN : SETPOINTS[arrayIndex];
+//	    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
+//	    	if (getPIDController().isEnable()) disable();
+//	    	setSetpoint(setpoint);
+//	    	getPIDController().reset();
+//	    	enable();
+//    	} else {
+//    		setSetpoint(returnPIDInput() - ENCODER_LEVEL_INCREMENT);
+//    	}
+//    }
     
     public void moveLiftTo(double setpoint) {
     	double currentValue = returnPIDInput();
@@ -330,9 +389,38 @@ public class LiftSystem extends PIDSubsystem {
     	stopLift();
     }
     
-    public void stopLift() {
-    	setLiftSpeed(0.0);
+    public void setPIDConstants(double kP, double kI, double kD, boolean rampingEnabled, boolean temporary) {
+    	if (getPIDController().isEnable()) disable();
+    	getPIDController().setPID(kP, kI, kD);
+    	getPIDController().reset();
+    	if (!temporary) currentPIDMode = new PIDMode(kP, kI, kD, rampingEnabled);
+    	currentPIDModeIncludingTemporary = new PIDMode(kP, kI, kD, rampingEnabled);
+    }
+    
+    public void setPIDConstants(double kP, double kI, double kD, boolean rampingEnabled) {
+    	setPIDConstants(kP, kI, kD, rampingEnabled, false);
+    }
+    
+    public void setPIDConstants(double kP, double kI, double kD) {
+    	setPIDConstants(kP, kI, kD, false, false);
+    }
+    
+    public void setPIDConstants(PIDMode mode, boolean temporary) {
+    	setPIDConstants(mode.kP, mode.kI, mode.kD, mode.rampingEnabled, temporary);
+    }
+    
+    public void setPIDConstants(PIDMode mode) {
+    	setPIDConstants(mode, false);
+    }
+    
+    public void stopLift(boolean resetPIDConstants) {
+    	usePIDOutput(0.0);
     	resetLiftPower();
+    	if (resetPIDConstants) setPIDConstants(currentPIDMode);
+    }
+    
+    public void stopLift() {
+    	stopLift(true);
     }
     
     public void setLiftPower(double power) {
@@ -350,23 +438,30 @@ public class LiftSystem extends PIDSubsystem {
 
 	public void holdLift() {
     	if (getPIDController().isEnable()) disable();
+    	setPIDConstants(PIDMode.HOLD_LIFT, true);
     	setSetpoint(returnPIDInput());
     	getPIDController().reset();
     	enable();
     }
     
     public void setLiftSpeed(double liftSpeed) {
+    	if (getPIDController().isEnable()) disable();
+    	getPIDController().reset();
     	if ((liftSpeed < 0.0 && hitLowerLimit()) || (liftSpeed > 0.0 && hitUpperLimit())) {
-    		setLiftSpeed(0.0);
+    		backLiftMotor.set(0.0);
+    		frontLiftMotor.set(0.0);
     		return;
     	}
-    	if (getPIDController().isEnable()) disable();
     	backLiftMotor.set(Math.max(Math.min(liftSpeed, currentMaxLiftSpeed), -currentMaxLiftSpeed));
     	frontLiftMotor.set(Math.max(Math.min(liftSpeed, currentMaxLiftSpeed), -currentMaxLiftSpeed));
     }
     
     public static double convertInchesToLiftHeight(double inches) {
     	return (inches - LIFT_INCHES_MIN) / ((LIFT_INCHES_MAX - LIFT_INCHES_MIN) / (CALIBRATION_LIFT_ENCODER_MAX - CALIBRATION_LIFT_ENCODER_MIN)) + CALIBRATION_LIFT_ENCODER_MIN;
+    }
+    
+    public PIDMode getCurrentPIDMode() {
+    	return currentPIDMode;
     }
     
     
