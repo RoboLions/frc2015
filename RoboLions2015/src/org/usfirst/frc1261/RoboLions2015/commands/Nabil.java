@@ -1,7 +1,6 @@
 package org.usfirst.frc1261.RoboLions2015.commands;
 
 import org.usfirst.frc1261.RoboLions2015.Robot;
-import org.usfirst.frc1261.RoboLions2015.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
@@ -9,9 +8,9 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 /**
  *
  */
-public class AutoContainer extends CommandGroup {
+public class Nabil extends CommandGroup {
     
-    public  AutoContainer() {
+    public  Nabil() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -29,28 +28,14 @@ public class AutoContainer extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	requires(Robot.driveTrain);
     	requires(Robot.liftSystem);
     	requires(Robot.manipulator);
-    	
-    	addSequential(new BringLiftDown());
-    	addSequential(new GoToLiftPosition(40.0, 1.0));
-    	addSequential(new WaitCommand(0.2));
-    	addSequential(new PistonIn());
-    	addSequential(new WaitCommand(0.2));
-    	addSequential(new GoToLiftPosition(250.0, 1.0));
-    	addSequential(new WaitCommand(0.2));
-    	addSequential(new AutoGyroDriveReverse(6.5, DriveTrain.forwardSpeed));
-    	addSequential(new WaitCommand(0.5));
-    	addSequential(new AutoGyroLeftTurn(80 + DriveTrain.turnLeftOffset));
-    	/*
-    	addSequential(new WaitCommand(0.5));
-    	addSequential(new GoToLiftPosition(40.0, 0.9));
+    	addSequential(new GoToLiftPosition(273.0));
     	addSequential(new WaitCommand(0.2));
     	addSequential(new PistonOut());
     	addSequential(new WaitCommand(0.2));
-    	addSequential(new GoToLiftPosition(0.0, 0.9));
-    	*/
-    	// 79 to 184
+    	addSequential(new GoToLiftPosition(131.0));
+    	addSequential(new WaitCommand(0.2));
+    	addSequential(new PistonIn());
     }
 }

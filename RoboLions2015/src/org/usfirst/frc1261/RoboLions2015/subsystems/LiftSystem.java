@@ -11,8 +11,6 @@
 
 package org.usfirst.frc1261.RoboLions2015.subsystems;
 
-import java.util.Arrays;
-
 import org.usfirst.frc1261.RoboLions2015.Robot;
 import org.usfirst.frc1261.RoboLions2015.RobotMap;
 import org.usfirst.frc1261.RoboLions2015.commands.HoldLift;
@@ -61,12 +59,12 @@ public class LiftSystem extends PIDSubsystem {
     private static final double TOLERANCE = 5.0;
     
     //private static double[] SETPOINTS = {62.0, 208.0, 366.0, 500.0, 650.0};
-    private static double[] SETPOINTS = {488.0};
+    // private static double[] SETPOINTS = {473.0};
     // private static double[] SETPOINTS = {467.0};
-    private static double ENCODER_LEVEL_INCREMENT = 150.0;
-    private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
+    // private static double ENCODER_LEVEL_INCREMENT = 150.0;
+    // private static final double SETPOINT_TOLERANCE = 1.5 * TOLERANCE;
     public static final PIDMode DEFAULT_PID_MODE = PIDMode.TELEOP;
-    private static final double RAMP_UP_RATE = 5;
+    private static final double RAMP_UP_RATE = 7.5;
     private static final double RAMP_DOWN_RATE = 5;
     
     static {
@@ -145,7 +143,7 @@ public class LiftSystem extends PIDSubsystem {
         setOutputRange(-currentMaxLiftSpeed, currentMaxLiftSpeed);
         LiveWindow.addActuator("LiftSystem", "PIDSubsystem Controller", getPIDController());
         
-        Arrays.sort(SETPOINTS);
+        // Arrays.sort(SETPOINTS);
 
         // Use these to get going:
         // setSetpoint() -  Sets where the PID controller should move the system
@@ -307,51 +305,51 @@ public class LiftSystem extends PIDSubsystem {
     	}
     }
     
-    public void raiseLiftOneLevel() {
-    	if (hitUpperLimit()) {
-    		stopLift();
-    		return;
-    	}
-    	if (calibrated) {
-	    	double currentValue = returnPIDInput();
-	    	double setpoint;
-	    	int arrayIndex = 0;
-	    	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + SETPOINT_TOLERANCE) {
-	    		arrayIndex++;
-	    	}
-	    	setpoint = (arrayIndex >= SETPOINTS.length) ? LIFT_ENCODER_MAX : SETPOINTS[arrayIndex];
-	    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
-	    	if (getPIDController().isEnable()) disable();
-	    	setSetpoint(setpoint);
-	    	getPIDController().reset();
-	    	enable();
-    	} else {
-    		setSetpoint(returnPIDInput() + ENCODER_LEVEL_INCREMENT);
-    	}
-    }
-    
-    public void lowerLiftOneLevel() {
-    	if (hitLowerLimit()) {
-    		stopLift();
-    		return;
-    	}
-    	if (calibrated) {
-	    	double currentValue = returnPIDInput();
-	    	double setpoint;
-	    	int arrayIndex = SETPOINTS.length - 1;
-	    	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - SETPOINT_TOLERANCE) {
-	    		arrayIndex--;
-	    	}
-	    	setpoint = (arrayIndex < 0) ? LIFT_ENCODER_MIN : SETPOINTS[arrayIndex];
-	    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
-	    	if (getPIDController().isEnable()) disable();
-	    	setSetpoint(setpoint);
-	    	getPIDController().reset();
-	    	enable();
-    	} else {
-    		setSetpoint(returnPIDInput() - ENCODER_LEVEL_INCREMENT);
-    	}
-    }
+//    public void raiseLiftOneLevel() {
+//    	if (hitUpperLimit()) {
+//    		stopLift();
+//    		return;
+//    	}
+//    	if (calibrated) {
+//	    	double currentValue = returnPIDInput();
+//	    	double setpoint;
+//	    	int arrayIndex = 0;
+//	    	while (arrayIndex < SETPOINTS.length && SETPOINTS[arrayIndex] <= currentValue + SETPOINT_TOLERANCE) {
+//	    		arrayIndex++;
+//	    	}
+//	    	setpoint = (arrayIndex >= SETPOINTS.length) ? LIFT_ENCODER_MAX : SETPOINTS[arrayIndex];
+//	    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
+//	    	if (getPIDController().isEnable()) disable();
+//	    	setSetpoint(setpoint);
+//	    	getPIDController().reset();
+//	    	enable();
+//    	} else {
+//    		setSetpoint(returnPIDInput() + ENCODER_LEVEL_INCREMENT);
+//    	}
+//    }
+//    
+//    public void lowerLiftOneLevel() {
+//    	if (hitLowerLimit()) {
+//    		stopLift();
+//    		return;
+//    	}
+//    	if (calibrated) {
+//	    	double currentValue = returnPIDInput();
+//	    	double setpoint;
+//	    	int arrayIndex = SETPOINTS.length - 1;
+//	    	while (arrayIndex >= 0 && SETPOINTS[arrayIndex] >= currentValue - SETPOINT_TOLERANCE) {
+//	    		arrayIndex--;
+//	    	}
+//	    	setpoint = (arrayIndex < 0) ? LIFT_ENCODER_MIN : SETPOINTS[arrayIndex];
+//	    	// Assumes the array is sorted, which is why I call Array.sort in the constructor.
+//	    	if (getPIDController().isEnable()) disable();
+//	    	setSetpoint(setpoint);
+//	    	getPIDController().reset();
+//	    	enable();
+//    	} else {
+//    		setSetpoint(returnPIDInput() - ENCODER_LEVEL_INCREMENT);
+//    	}
+//    }
     
     public void moveLiftTo(double setpoint) {
     	double currentValue = returnPIDInput();

@@ -98,9 +98,9 @@ public class OI {
         manipX = new JoystickButton(manipulatorJoystick, 3);
         manipX.whileHeld(new ManualLowerLift());
         manipB = new JoystickButton(manipulatorJoystick, 2);
-        manipB.whenPressed(new Raise1Unit());
+        manipB.whenPressed(new GoToLiftPosition(473.0));
         manipA = new JoystickButton(manipulatorJoystick, 1);
-        manipA.whenPressed(new Lower1Unit());
+        manipA.whenPressed(new Nabil());
         driverJoystick = new Joystick(0);
         
         driverRightStick = new JoystickButton(driverJoystick, 10);
@@ -126,13 +126,10 @@ public class OI {
 
 	    
         // SmartDashboard Buttons
-        SmartDashboard.putData("Raise Lift 1 Unit", new Raise1Unit());
-
+        
         SmartDashboard.putData("Auto Lower Lift", new AutoLowerLift());
 
         SmartDashboard.putData("Auto Raise Lift", new AutoRaiseLift());
-
-        SmartDashboard.putData("Lower Lift 1 Unit", new Lower1Unit());
 
         SmartDashboard.putData("Reset Lift Encoder", new ResetLiftEncoder());
 

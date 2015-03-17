@@ -9,8 +9,15 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class GoToLiftPosition extends Command {
 
-	private double liftPosition;
-	private double liftPower;
+	private double liftPosition = 0.0;
+	private double liftPower = 1.0;
+	private boolean liftPowerSet = false;
+	
+	public GoToLiftPosition(double liftPosition) {
+		requires(Robot.liftSystem);
+		this.liftPosition = liftPosition;
+		this.liftPowerSet = false;
+	}
 	
     public GoToLiftPosition(double liftPosition, double liftPower) {
         // Use requires() here to declare subsystem dependencies
@@ -18,12 +25,14 @@ public class GoToLiftPosition extends Command {
     	requires(Robot.liftSystem);
     	this.liftPosition = liftPosition;
     	this.liftPower = liftPower;
+    	this.liftPowerSet = true;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.liftSystem.stopLift();
-    	Robot.liftSystem.moveLiftTo(liftPosition, liftPower);
+    	if (liftPowerSet) Robot.liftSystem.moveLiftTo(liftPosition, liftPower);
+    	else Robot.liftSystem.moveLiftTo(liftPosition);
     }
 
     // Called repeatedly when this Command is scheduled to run

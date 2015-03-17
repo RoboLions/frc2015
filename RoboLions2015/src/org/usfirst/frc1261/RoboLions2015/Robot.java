@@ -55,6 +55,8 @@ public class Robot extends IterativeRobot {
     private static final String AUTO_CONTAINER = "Container Pull";
     private static final String AUTO_W_SCORING_PLATFORM = " (with scoring platform)";
     private static final String AUTO_WO_SCORING_PLATFORM = " (without scoring platform)";
+    private static final String AUTO_CONTAINER_STACK = "Container Tote Stack";
+    private static final String AUTO_CONTAINER_READY = "Container Ready";
     private static final String AUTO_NONE = "None";
     
     private static final String DEFAULT_AUTO = AUTO_CONTAINER + AUTO_WO_SCORING_PLATFORM;
@@ -65,7 +67,8 @@ public class Robot extends IterativeRobot {
         autoChooser.addObject(AUTO_TOTE_PUSH + AUTO_W_SCORING_PLATFORM, new TotePushWithScoringPlatform());
         autoChooser.addObject(AUTO_3_TOTE + AUTO_WO_SCORING_PLATFORM, new Auto3ToteStackWithoutScoringPlatform());
         autoChooser.addObject(AUTO_TOTE_PUSH + AUTO_WO_SCORING_PLATFORM, new TotePushWithoutScoringPlatform());
-        
+        autoChooser.addObject(AUTO_CONTAINER_STACK + AUTO_WO_SCORING_PLATFORM, new AutoContainerToteStackWithoutScoringPlatform());
+        autoChooser.addObject(AUTO_CONTAINER_READY, new AutoContainerReady());
         autoChooser.addDefault(AUTO_CONTAINER + AUTO_WO_SCORING_PLATFORM, new AutoContainer());
         
         autoChooser.addObject(AUTO_NONE, new DummyCommand());
