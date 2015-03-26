@@ -13,7 +13,8 @@ public class Manipulator extends Subsystem {
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
-	DoubleSolenoid forkPiston = RobotMap.forkSolenoid;
+	DoubleSolenoid forkPiston1 = RobotMap.forkSolenoid1;
+	DoubleSolenoid forkPiston2 = RobotMap.forkSolenoid2;
 	AnalogInput transducer = new AnalogInput(0);
 
 	double leastAmountOfPressureNeeded = 100;
@@ -31,15 +32,18 @@ public class Manipulator extends Subsystem {
 	}
     
 	public void pistonOut(){
-		forkPiston.set(DoubleSolenoid.Value.kForward);
+		forkPiston1.set(DoubleSolenoid.Value.kForward);
+		forkPiston2.set(DoubleSolenoid.Value.kForward);
 	}
     
 	public void pistonIn(){
-		forkPiston.set(DoubleSolenoid.Value.kReverse);
+		forkPiston1.set(DoubleSolenoid.Value.kReverse);
+		forkPiston2.set(DoubleSolenoid.Value.kReverse);
 	}
     
 	public void pistonOff(){
-		forkPiston.set(DoubleSolenoid.Value.kOff);
+		forkPiston1.set(DoubleSolenoid.Value.kOff);
+		forkPiston2.set(DoubleSolenoid.Value.kOff);
 	}
 
 	public boolean getPressureLight() {

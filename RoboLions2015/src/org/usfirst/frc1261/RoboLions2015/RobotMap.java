@@ -42,7 +42,8 @@ public class RobotMap {
     
     public static Gyro gyro;
     
-    public static DoubleSolenoid forkSolenoid;
+    public static DoubleSolenoid forkSolenoid1;
+    public static DoubleSolenoid forkSolenoid2;
 
     public static void init() {
     	
@@ -75,16 +76,8 @@ public class RobotMap {
         driveTrainrightBackDrive = new CANTalon(4);
         driveTrainleftBackDrive = new CANTalon(5);
         driveTrainleftFrontDrive = new CANTalon(6);
-        int robotId = Robot.getRobotId();
-        switch (robotId) {
-        case 1:
-        	forkSolenoid = new DoubleSolenoid(0,2,3);
-        	break;
-        case 2:
-        default:
-        	forkSolenoid = new DoubleSolenoid(0,0,1);
-        	break;
-        }
+    	forkSolenoid1 = new DoubleSolenoid(0,0,1);
+    	forkSolenoid2 = new DoubleSolenoid(0,2,3);
         driveTrainrobotDrive = new RobotDrive(driveTrainleftFrontDrive, driveTrainleftBackDrive, driveTrainrightFrontDrive, driveTrainrightBackDrive);
         driveTrainrobotDrive.setInvertedMotor(MotorType.kFrontRight, true);
         driveTrainrobotDrive.setInvertedMotor(MotorType.kRearRight, true);
