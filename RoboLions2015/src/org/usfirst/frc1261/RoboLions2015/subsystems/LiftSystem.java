@@ -464,6 +464,10 @@ public class LiftSystem extends PIDSubsystem {
     	return currentPIDMode;
     }
     
+    public PIDMode getCurrentPIDModeIncludingTemporary() {
+    	return currentPIDModeIncludingTemporary;
+    }
+    
     
     
     // Put methods for controlling this subsystem

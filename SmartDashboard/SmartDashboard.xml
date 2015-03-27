@@ -1,5 +1,17 @@
 <xml version="1.0">
 <dashboard>
+	<widget field="Lift kP: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="768" y="351"/>
+		<width>74</width>
+	</widget>
+	<widget field="Lift kD: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="767" y="395"/>
+		<width>75</width>
+	</widget>
+	<widget field="Lift kI: " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="770" y="373"/>
+		<width>72</width>
+	</widget>
 	<widget field="Current Autonomous: " type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
 		<location x="548" y="442"/>
 		<width>397</width>
@@ -24,7 +36,8 @@
 		<location x="17" y="434"/>
 	</widget>
 	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.RobotPreferences">
-		<location x="989" y="239"/>
+		<location x="989" y="313"/>
+		<height>126</height>
 	</static-widget>
 	<widget field="Uncalibrate Lift" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
 		<location x="6" y="444"/>

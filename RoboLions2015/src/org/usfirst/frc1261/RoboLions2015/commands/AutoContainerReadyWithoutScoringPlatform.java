@@ -19,7 +19,7 @@ public class AutoContainerReadyWithoutScoringPlatform extends CommandGroup {
         addSequential(new BringLiftDown());
     	addSequential(new PistonIn());
     	addSequential(new WaitCommand(0.9));
-    	addParallel(new GoToLiftPosition(575.0, 1.0));
+    	addParallel(new GoToLiftPosition(485.0, 1.0));
     	addSequential(new WaitCommand(0.5));
     	addSequential(new AutoGyroDriveForward(DriveTrain.containerToWall + DriveTrain.forwardOffset, DriveTrain.forwardSpeed));
     }

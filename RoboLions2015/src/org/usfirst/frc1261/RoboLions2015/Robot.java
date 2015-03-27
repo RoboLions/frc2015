@@ -57,6 +57,7 @@ public class Robot extends IterativeRobot {
     private static final String AUTO_WO_SCORING_PLATFORM = " (without scoring platform)";
     private static final String AUTO_CONTAINER_STACK = "Container Tote Stack";
     private static final String AUTO_CONTAINER_READY = "Container Ready";
+    private static final String AUTO_CONTAINER_READY_W_TURN = "Container Ready with Turn";
     private static final String AUTO_NONE = "None";
     
     private static final String DEFAULT_AUTO = AUTO_CONTAINER + AUTO_WO_SCORING_PLATFORM;
@@ -70,6 +71,7 @@ public class Robot extends IterativeRobot {
         autoChooser.addObject(AUTO_CONTAINER_STACK + AUTO_WO_SCORING_PLATFORM, new AutoContainerToteStackWithoutScoringPlatform());
         autoChooser.addObject(AUTO_CONTAINER_READY + AUTO_WO_SCORING_PLATFORM, new AutoContainerReadyWithoutScoringPlatform());
         autoChooser.addObject(AUTO_CONTAINER_READY + AUTO_W_SCORING_PLATFORM, new AutoContainerReadyWithScoringPlatform());
+        autoChooser.addObject(AUTO_CONTAINER_READY_W_TURN + AUTO_W_SCORING_PLATFORM, new AutoContainerReadyWithScoringPlatformWithTurn());
         autoChooser.addDefault(AUTO_CONTAINER + AUTO_WO_SCORING_PLATFORM, new AutoContainer());
         
         autoChooser.addObject(AUTO_NONE, new DummyCommand());
@@ -193,9 +195,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Gyro: ", driveTrain.getAngle());
         SmartDashboard.putData(Scheduler.getInstance());
         SmartDashboard.putString("Current Autonomous: ", autoChooser.getTable().getString(SENDABLECHOOSER_SELECTED, "Unknown; will run \"" + DEFAULT_AUTO + "\""));
-        Preferences.getInstance().putDouble("PID_kP", liftSystem.getCurrentPIDMode().kP);
-        Preferences.getInstance().putDouble("PID_kI", liftSystem.getCurrentPIDMode().kI);
-        Preferences.getInstance().putDouble("PID_kD", liftSystem.getCurrentPIDMode().kD);
+        SmartDashboard.putNumber("Lift kP: ", liftSystem.getCurrentPIDModeIncludingTemporary().kP);
+        SmartDashboard.putNumber("Lift kI: ", liftSystem.getCurrentPIDModeIncludingTemporary().kI);
+        SmartDashboard.putNumber("Lift kD: ", liftSystem.getCurrentPIDModeIncludingTemporary().kD);
         SmartDashboard.putData("Autonomous", autoChooser);
         
         // Camera
